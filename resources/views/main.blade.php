@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Template Page</title>
+        <title>Mauritius Meetups</title>
         <script src="https://cdn.tailwindcss.com"></script>
 
         <style>
@@ -56,15 +56,25 @@
                             <h3 class="mt-1.5 text-lg font-medium text-gray-900">
                                 {{$meetup->title}}
                             </h3>
-
+                            @if (strlen($meetup->abstract) > 150)
+                                <p class="mt-1.5 line-clamp-3 text-gray-700">
+                                    {{substr($meetup->abstract, 0, 150)}}...
+                                    <br>
+                                </p>
+                            @else
                             <p class="mt-1.5 line-clamp-3 text-gray-700">
                                 {{$meetup->abstract}}
                                 <br>
                             </p>
+                            @endif
                             <p>
                             <span
-                                class="px-3 py-1 rounded-full bg-cyan-900 font-bold uppercase"
+                                class="px-3 py-1 rounded-full bg-cyan-900 font-bold uppercase text-white"
                                 >{{$meetup->location}}</span
+                            >
+                            <span
+                                class="px-3 py-1 rounded-full bg-cyan-900 font-bold uppercase text-white"
+                                >{{explode(" ",$meetup->date)[0]}}</span
                             >
                             </p>
                         </div>
