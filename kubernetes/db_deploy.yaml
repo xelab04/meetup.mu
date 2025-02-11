@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_ROOTPWD
+
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_USER
+
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_PASSWORD
+
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_DATABASE
+          ports:
+            - containerPort: 3306
+
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: meetups_data
