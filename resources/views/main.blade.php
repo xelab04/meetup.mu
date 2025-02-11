@@ -20,12 +20,9 @@
                     href="#"
                     class="group max-w-4xl relative block overflow-hidden mt-2"
                 >
-                    <div class="relative p-6 rounded-lg text-center">
+                    <div class="relative p-6 rounded-lg text-center px-3 py-1 rounded-full bg-gray-800 font-bold uppercase text-4xl">
                         <h1 class="text-gray-100">
-                            <span
-                                class="px-3 py-1 rounded-full bg-gray-800 font-bold uppercase text-4xl"
-                                >Mauritius Tech Meetups</span
-                            >
+                            Mauritius Tech Meetups
                         </h1>
 
                         <h3 class="mt-1.5 text-lg font-medium text-gray-100">
@@ -68,14 +65,12 @@
                             </p>
                             @endif
                             <p>
-                            <span
-                                class="px-3 py-1 rounded-full bg-cyan-900 font-bold uppercase text-white"
-                                >{{$meetup->location}}</span
-                            >
-                            <span
-                                class="px-3 py-1 rounded-full bg-cyan-900 font-bold uppercase text-white"
-                                >{{explode(" ",$meetup->date)[0]}}</span
-                            >
+                            <span class="px-3 py-1 rounded-full bg-cyan-900 font-bold uppercase text-white">
+                                    {{$meetup->location}}
+                            </span>
+                            <span class="px-3 py-1 rounded-full bg-cyan-900 font-bold uppercase text-white">
+                                {{explode(" ",$meetup->date)[0]}}
+                            </span>
                             </p>
                         </div>
                     </a>
