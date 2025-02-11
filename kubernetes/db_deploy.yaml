@@ -50,4 +50,4 @@ spec:
       volumes:
         - name: mysql-data
           persistentVolumeClaim:
-            claimName: meetups_data
+            claimName: meetups-data

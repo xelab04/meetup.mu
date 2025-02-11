@@ -25,3 +25,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: env-cfm
+
+      imagePullSecrets:
+        - name: regcred

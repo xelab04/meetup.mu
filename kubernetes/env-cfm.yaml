@@ -21,7 +21,7 @@ data:
   CACHE_STORE: database
   DB_CONNECTION: mysql
   DB_DATABASE: laravel
-  DB_HOST: meetups-svc
+  DB_HOST: meetup-mysql
   DB_PASSWORD: password
   DB_PORT: "3306"
   DB_USERNAME: alex

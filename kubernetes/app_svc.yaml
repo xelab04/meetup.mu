@@ -3,8 +3,10 @@ kind: Service
 metadata:
   name: meetups-svc
 spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.0.60
   selector:
     app: meetups
   ports:
     - protocol: TCP
-      port: 3306
+      port: 8000
