@@ -39,7 +39,7 @@
                 <section class="mt-8" style="width:inherit">
                     <a href="{{ $meetup->registration }}" class="group relative block overflow-hidden">
                         <div
-                            class="relative border-8 border-red-600 bg-white p-6 rounded-lg"
+                            class="relative border-8 border-cyan-600 bg-white p-6 rounded-lg"
                         >
                             <p class="text-gray-100">
                                 <span
@@ -86,7 +86,7 @@
 
         <footer class="bg-gray-800 text-white py-4">
             <div class="container mx-auto text-center">
-                <p>Made by the local community groups.</p>
+                <p>Made by Alex, who is [visibly] not a frontend dev.</p>
             </div>
         </footer>
 
