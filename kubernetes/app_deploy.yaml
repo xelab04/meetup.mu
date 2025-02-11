@@ -18,7 +18,7 @@ spec:
         app: meetups
     spec:
       containers:
-        - image: registry.alexbissessur.dev/meetups:1.0
+        - image: registry.alexbissessur.dev/meetups:1.1
           name: meetups
           ports:
             - containerPort: 8000

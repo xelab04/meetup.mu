@@ -41,7 +41,8 @@ class MeetupResource extends Resource
                     "cloudnativemu" => "Cloud Native MU",
                     "frontendmu" => "Frontend MU",
                     "dodocore" => "DodoCore",
-                    "pymug" => "PYMUG",
+		    "pymug" => "PYMUG",
+		    "laravelmoris" => "LaravelMoris",
                 ])
                 ->required(),
             Forms\Components\Select::make("type")
