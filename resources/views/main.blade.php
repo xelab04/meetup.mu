@@ -94,7 +94,7 @@
         <footer class="bg-gray-800 dark:bg-neutral-900 text-white py-6">
             <div class="container mx-auto text-center">
                 <p class="text-sm md:text-base">
-                    Made by Alex, who is [visibly] not a frontend dev.
+                    Made by the wider Mauritian tech community <3
                 </p>
             </div>
         </footer>
