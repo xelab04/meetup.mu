@@ -10,6 +10,7 @@ data:
   APP_NAME: Laravel
   APP_TIMEZONE: UTC
   APP_URL: https://meetup.mu
+  ASSET_URL: https://meetup.mu
   AWS_ACCESS_KEY_ID: ""
   AWS_BUCKET: ""
   AWS_DEFAULT_REGION: us-east-1
