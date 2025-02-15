@@ -1,25 +1,31 @@
-FROM registry.suse.com/bci/php:8 AS installer
-
-RUN zypper -n in php8-intl php8-tokenizer php8-fileinfo php8-dom php8-xmlreader php8-xmlwriter php8-pdo php8-sqlite php8-mysql
-RUN zypper -n in nodejs npm
-
-
-FROM installer
+FROM dunglas/frankenphp
 
 WORKDIR /app
+
+# Install dependencies
+RUN apt update
+RUN apt install nodejs npm -y
+# && docker-php-ext-install pdo pdo_mysql intl dom tokenizer fileinfo \
+
+RUN install-php-extensions \
+    pdo \
+    pdo_mysql \
+    intl \
+    dom \
+    tokenizer
+
+# Copy application files
 COPY . .
 
-RUN composer install
-RUN npm install
-RUN npm run build
+# RUN composer install --no-dev --optimize-autoloader
+RUN npm install && npm run build
 
+# Set environment
 COPY .env.prod .env
-
 RUN php artisan key:generate
 RUN php artisan storage:link
 
+# Expose port
 EXPOSE 8000
-ENV URL=0.0.0.0
 
-CMD ["php", "artisan", "migrate:fresh", "--seed"]
-ENTRYPOINT [ "sh", "-c", "php artisan serve --host=$URL --port=8000" ]
+CMD ["sh", "-c", "frankenphp run --port=8000"]
