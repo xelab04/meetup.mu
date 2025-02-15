@@ -27,5 +27,4 @@ RUN php artisan storage:link
 
 # Expose port
 EXPOSE 8000
-
-CMD ["sh", "-c", "frankenphp run --port=8000"]
+ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
