@@ -54,7 +54,7 @@
             <!-- Cards Section -->
             @foreach($meetups as $meetup)
                 <section class="mt-12 w-full px-4 container mx-auto max-w-4xl">
-                    <a href="{{ $meetup->registration }}" class="group relative block">
+                    <a href="{{ $meetup->registration }}" class="group relative block" target="_blank">
                         <div class="relative border border-gray-200 dark:border-neutral-700 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow bg-white bg-opacity-90 dark:bg-neutral-800 dark:bg-opacity-90">
                             <div class="flex justify-between items-center mb-6">
                                 <span class="px-3 py-1 rounded-full bg-teal-600 text-white font-semibold uppercase text-sm tracking-wide">
