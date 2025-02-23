@@ -29,4 +29,7 @@ jobs:
       run: echo $APP_VERSION
       
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$APP_VERSION
+      run: docker build . --file Dockerfile --tag registry.alexbissessur.dev/meetups:$APP_VERSION
+
+    - name: Push Docker image
+      run: docker push registry.alexbissessur.dev/meetups:$APP_VERSION
