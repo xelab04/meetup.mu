@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: meetups
+  name: meetups
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meetups
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: meetups
+    spec:
+      containers:
+        - image: registry.alexbissessur.dev/meetups:{{ version }}
+          name: meetups
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: env-cfm
+          imagePullPolicy: Always
+
+      imagePullSecrets:
+        - name: regcred

@@ -1,68 +1,25 @@
-FROM dunglas/frankenphp
+FROM registry.suse.com/bci/php:8 AS installer
+
+RUN zypper -n in php8-intl php8-tokenizer php8-fileinfo php8-dom php8-xmlreader php8-xmlwriter php8-pdo php8-sqlite php8-mysql
+RUN zypper -n in nodejs npm
+
+
+FROM installer
 
 WORKDIR /app
-
-RUN install-php-extensions \
-    pcntl \
-    pdo_mysql \
-    redis \
-    opcache \
-    xdebug \
-    zip \
-    bcmath \
-    sockets \
-    intl \
-    gd \
-    imagick \
-    exif \
-    gmp \
-    soap \
-    xml \
-    zip \
-    bz2 \
-    calendar \
-    tokenizer
-
 COPY . .
+
+RUN composer install
+RUN npm install
+RUN npm run build
 
 COPY .env.prod .env
 
-RUN apt update && apt install composer
+RUN php artisan key:generate
+RUN php artisan storage:link
 
-RUN composer require laravel/octane
+EXPOSE 8000
+ENV URL=0.0.0.0
 
-ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
-
-
-# FROM dunglas/frankenphp
-
-# WORKDIR /app/public
-
-# # Install dependencies
-# RUN apt update
-# RUN apt install nodejs npm -y
-# # && docker-php-ext-install pdo pdo_mysql intl dom tokenizer fileinfo \
-
-# RUN install-php-extensions \
-#     pdo \
-#     pdo_mysql \
-#     intl \
-#     dom \
-#     tokenizer
-
-# # Copy application files
-# COPY . /app
-
-# # RUN composer install --no-dev --optimize-autoloader
-# RUN npm install && npm run build
-
-# # Set environment
-# COPY .env.prod .env
-# RUN php artisan key:generate
-# RUN php artisan storage:link
-
-# # Expose port
-# EXPOSE 8000
-# # ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
-# #
-# #
+CMD ["php", "artisan", "migrate:fresh", "--seed"]
+ENTRYPOINT [ "sh", "-c", "php artisan serve --host=$URL --port=8000" ]
