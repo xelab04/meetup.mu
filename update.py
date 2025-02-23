@@ -1,5 +1,4 @@
 import sys
-from jinja2 import Template
 
 def check_args():
     if len(sys.argv) != 2:
@@ -26,17 +25,18 @@ def write_version(ver):
     with open("version.txt", "w") as filehandle:
         filehandle.writelines(ver)
 
-def write_render(content):
-    with open("kubernetes/app_deploy.yaml", "w") as filehandle:
-        filehandle.write(content)
-
 def render_template(version):
-    with open("kubernetes/app_deploy_template.jinja", "r") as filehandle:
-        template_content = "".join(filehandle.readlines())
-        template = Template(template_content)
-        rendered_content = template.render(version=version)
+    with open("kubernetes/app_deploy_template", "r") as filehandle:
+        lines = filehandle.readlines()
+        new_lines = []
+        for line in lines:
+            if "{{ version }}" in line:
+                line = line.replace("{{ version }}", version)
+            new_lines.append(line)
 
-        write_render(rendered_content)
+        with open("kubernetes/app_deploy.yaml","w") as filehandle:
+            filehandle.writelines(new_lines)
+
 
 def main():
     ver = check_args()
