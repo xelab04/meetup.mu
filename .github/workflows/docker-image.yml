@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Get Docker version
-      run: export APP_VERSION=$(cat version.txt)
+      run: echo "APP_VERSION=$(cat version.txt)" >> $GITHUB_ENV
     - name: Output Docker ver
       run: echo $APP_VERSION
     - name: Build the Docker image
