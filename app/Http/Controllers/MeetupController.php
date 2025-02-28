@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Meetup;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class MeetupController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $meetups = Meetup::orderBy("date", "asc")->get();
+        // $meetups = Meetup::orderBy("date", "asc")->get();
+        $meetups = Meetup::where("date", ">=", Carbon::now())
+            ->orderBy("date", "asc")
+            ->get();
         return view("main", compact("meetups"));
     }
     /**
