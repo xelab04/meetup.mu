@@ -64,3 +64,12 @@ If you don't have Python, changing the version is in 2 steps.
 
     1. Update version in `version.txt`
     2. Update version in `kubernetes/app_deploy.yaml` on line 21
+    
+    
+### Acknowledgements
+
+This project is made possible a few amazing people. I just want to have a lil credits mention for them:
+
+- [Mr Sunshyne](https://github.com/MrSunshyne/) for redoing the entire frontend and making it actually pretty.
+- [Cedric](https://github.com/cedpoilly) for making a small but useful change to how registration is handled.
+- [Alex (me)](https://github.com/xelab04) for starting the whole thing, and hosting it on his Kubernetes homelab.
