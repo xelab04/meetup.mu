@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class MeetupController extends Controller
 {
-    public function __invoke(Request $request)
+    public function home()
     {
         // $meetups = Meetup::orderBy("date", "asc")->get();
         $meetups = Meetup::where("date", ">=", Carbon::now())
@@ -16,6 +16,34 @@ class MeetupController extends Controller
             ->get();
         return view("main", compact("meetups"));
     }
+
+    public function past()
+    {
+        // $meetups = Meetup::orderBy("date", "asc")->get();
+        $meetups = Meetup::where("date", "<=", Carbon::now())
+            ->orderBy("date", "asc")
+            ->get();
+        return view("main", compact("meetups"));
+    }
+
+    public function community($community)
+    {
+        $meetups = Meetup::where("community", $community)
+            ->where("date", ">=", Carbon::now())
+            ->orderBy("date", "asc")
+            ->get();
+        return view("main", compact("meetups"));
+    }
+
+    public function past_community($community)
+    {
+        $meetups = Meetup::where("community", $community)
+            ->where("date", "<=", Carbon::now())
+            ->orderBy("date", "asc")
+            ->get();
+        return view("main", compact("meetups"));
+    }
+
     /**
      * Display a listing of the resource.
      */
