@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Meetup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 class MeetupController extends Controller
