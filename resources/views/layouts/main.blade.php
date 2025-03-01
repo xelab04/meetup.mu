@@ -57,11 +57,6 @@
                     <p class="mt-4 text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                         All the tech meetups from the many local community groups, in one place!
                     </p>
-                    <div class="my-8">
-                        <span class="px-3 py-1 rounded-full bg-teal-600 text-white font-semibold uppercase text-sm tracking-wide">
-                            Join Us!
-                        </span>
-                    </div>
                 </div>
             </section>
 
