@@ -24,3 +24,7 @@ Route::get("/past/{community}", [
 Route::get("/c/{community}", [MeetupController::class, "community"])->name(
     "community"
 );
+
+Route::get("/healthz", function () {
+    return response()->json(["status" => "ok"]);
+});

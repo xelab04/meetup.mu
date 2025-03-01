@@ -16,7 +16,7 @@ class MeetupController extends Controller
         //     ->orderBy("date", "asc")
         //     ->get();
 
-        $meetups = Cache::remember("meetups_home", 60, function () {
+        $meetups = Cache::remember("meetups_home", 600, function () {
             return Meetup::where("date", ">=", Carbon::now())
                 ->orderBy("date", "asc")
                 ->get();
@@ -28,27 +28,40 @@ class MeetupController extends Controller
     public function past()
     {
         // $meetups = Meetup::orderBy("date", "asc")->get();
-        $meetups = Meetup::where("date", "<=", Carbon::now())
-            ->orderBy("date", "asc")
-            ->get();
+        $meetups = Cache::remember("meetups_past", 600, function () {
+            return Meetup::where("date", "<=", Carbon::now())
+                ->orderBy("date", "asc")
+                ->get();
+        });
+
         return view("past", compact("meetups"));
     }
 
     public function community($community)
     {
-        $meetups = Meetup::where("community", $community)
-            ->where("date", ">=", Carbon::now())
-            ->orderBy("date", "asc")
-            ->get();
+        $meetups = Cache::remember("community", 600, function () use (
+            $community
+        ) {
+            return Meetup::where("community", $community)
+                ->where("date", ">=", Carbon::now())
+                ->orderBy("date", "asc")
+                ->get();
+        });
+
         return view("community", compact("meetups", "community"));
     }
 
     public function past_community($community)
     {
-        $meetups = Meetup::where("community", $community)
-            ->where("date", "<=", Carbon::now())
-            ->orderBy("date", "asc")
-            ->get();
+        $meetups = Cache::remember("meetups_past", 600, function () use (
+            $community
+        ) {
+            return Meetup::where("community", $community)
+                ->where("date", "<=", Carbon::now())
+                ->orderBy("date", "asc")
+                ->get();
+        });
+
         return view("past-community", compact("meetups", "community"));
     }
 
