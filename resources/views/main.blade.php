@@ -53,18 +53,18 @@
 
             <!-- Cards Section -->
             @foreach($meetups as $meetup)
-                <section class="mt-12 w-full px-4 container mx-auto max-w-4xl">
+                <section class="mt-12 w-full px-4 container mx-auto max-w-4xl hover:scale-105 duration-300">
                     <a href="{{ $meetup->registration }}" class="group relative block" target="_blank">
                         <div class="relative border border-gray-200 dark:border-neutral-700 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow bg-white bg-opacity-90 dark:bg-neutral-800 dark:bg-opacity-90">
                             <div class="flex justify-between items-center mb-6">
                                 <span class="px-3 py-1 rounded-full bg-teal-600 text-white font-semibold uppercase text-sm tracking-wide">
                                     {{ $meetup->date->format('M d, Y') }}
                                 </span>
-                                <a href="{{ route('community', $meetup->community) }}">
-                                    <span class="px-3 py-1 rounded-full bg-gray-800 text-white font-semibold uppercase text-sm tracking-wide dark:bg-gray-600">
+                                <button onclick="event.preventDefault(); window.location='{{ route('community', $meetup->community) }}'; event.stopPropagation();" class="z-10">
+                                    <span class="px-3 py-1 rounded-full bg-gray-800 text-white font-semibold uppercase text-sm tracking-wide dark:bg-gray-600 hover:text-blue-400 hover:underline duration-300">
                                         {{ $meetup->community }}
                                     </span>
-                                </a>
+                                </button>
                             </div>
                             <h3 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">
                                 {{ $meetup->title }}
