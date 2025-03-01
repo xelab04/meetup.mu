@@ -14,7 +14,7 @@ class MeetupController extends Controller
         $meetups = Meetup::where("date", ">=", Carbon::now())
             ->orderBy("date", "asc")
             ->get();
-        return view("main", compact("meetups"));
+        return view("index", compact("meetups"));
     }
 
     public function past()
@@ -23,7 +23,7 @@ class MeetupController extends Controller
         $meetups = Meetup::where("date", "<=", Carbon::now())
             ->orderBy("date", "asc")
             ->get();
-        return view("main", compact("meetups"));
+        return view("past", compact("meetups"));
     }
 
     public function community($community)
@@ -32,7 +32,7 @@ class MeetupController extends Controller
             ->where("date", ">=", Carbon::now())
             ->orderBy("date", "asc")
             ->get();
-        return view("main", compact("meetups"));
+        return view("community", compact("meetups", "community"));
     }
 
     public function past_community($community)
@@ -41,7 +41,7 @@ class MeetupController extends Controller
             ->where("date", "<=", Carbon::now())
             ->orderBy("date", "asc")
             ->get();
-        return view("main", compact("meetups"));
+        return view("past-community", compact("meetups", "community"));
     }
 
     /**

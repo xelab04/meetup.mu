@@ -32,6 +32,6 @@
                 {{ $meetup->type }}
             </span>
         </div>
-        <a href="{{ $meetup->registration }}" class="absolute inset-0 z-0" target="_blank" aria-label="Learn more about Devcon"></a>
+        <a href="{{ $meetup->registration }}" class="absolute inset-0 z-0" target="_blank" aria-label="RSVP!"></a>
     </div>
 </section>

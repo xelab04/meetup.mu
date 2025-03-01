@@ -19,7 +19,7 @@ Route::get("/past", [MeetupController::class, "past"])->name("past");
 Route::get("/past/{community}", [
     MeetupController::class,
     "past_community",
-])->name("past_community");
+])->name("past-community");
 
 Route::get("/c/{community}", [MeetupController::class, "community"])->name(
     "community"
