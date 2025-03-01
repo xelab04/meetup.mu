@@ -42,7 +42,7 @@ data:
   MEMCACHED_HOST: 127.0.0.1
   PHP_CLI_SERVER_WORKERS: "4"
   QUEUE_CONNECTION: database
-  REDIS_CLIENT: phpredis
+  REDIS_CLIENT: predis
   REDIS_HOST: redis-svc
   REDIS_PASSWORD: "null"
   REDIS_PORT: "6379"
