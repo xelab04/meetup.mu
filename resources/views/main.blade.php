@@ -38,6 +38,15 @@
             </button>
         </div>
 
+        <div class="absolute top-4 right-20">
+            <a href="https://github.com/xelab04/meetups" target="_blank">
+            <div id="github" class="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none *:w-6 *:h-6">
+                <img src="{{ asset('images/github-mark.svg') }}" class="dark:hidden block" width="32" height="32">
+                <img src="{{ asset('images/github-mark-white.svg') }}" class="hidden dark:block" width="32" height="32">
+            </div>
+            </a>
+        </div>
+
         <main class="py-20 hero-section">
             <!-- Hero Section -->
             <section class="py-[20vh] px-4 bg-white dark:bg-neutral-800/50 shadow-sm dark:border-t-0 border-t border-t-gray-100 dark:border-t-gray-700">
