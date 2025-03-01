@@ -19,7 +19,7 @@ data:
   BCRYPT_ROUNDS: "12"
   BROADCAST_CONNECTION: log
   CACHE_PREFIX: ""
-  CACHE_STORE: database
+  CACHE_STORE: redis
   DB_CONNECTION: mysql
   DB_DATABASE: laravel
   DB_HOST: meetup-mysql
@@ -43,7 +43,7 @@ data:
   PHP_CLI_SERVER_WORKERS: "4"
   QUEUE_CONNECTION: database
   REDIS_CLIENT: phpredis
-  REDIS_HOST: 127.0.0.1
+  REDIS_HOST: redis-svc
   REDIS_PASSWORD: "null"
   REDIS_PORT: "6379"
   SESSION_DOMAIN: "null"

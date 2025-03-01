@@ -11,9 +11,16 @@ class MeetupController extends Controller
     public function home()
     {
         // $meetups = Meetup::orderBy("date", "asc")->get();
-        $meetups = Meetup::where("date", ">=", Carbon::now())
-            ->orderBy("date", "asc")
-            ->get();
+        // $meetups = Meetup::where("date", ">=", Carbon::now())
+        //     ->orderBy("date", "asc")
+        //     ->get();
+
+        $meetups = Cache::remember("meetups_home", 60, function () {
+            return Meetup::where("date", ">=", Carbon::now())
+                ->orderBy("date", "asc")
+                ->get();
+        });
+
         return view("index", compact("meetups"));
     }
 
