@@ -1,6 +1,6 @@
 FROM registry.suse.com/bci/php:8 AS installer
 
-RUN zypper -n in php8-intl php8-tokenizer php8-fileinfo php8-dom php8-xmlreader php8-xmlwriter php8-pdo php8-sqlite php8-mysql
+RUN zypper -n in php8-intl php8-tokenizer php8-fileinfo php8-dom php8-xmlreader php8-xmlwriter php8-pdo php8-sqlite php8-mysql php8-redis
 RUN zypper -n in nodejs npm
 
 
