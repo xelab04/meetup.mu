@@ -1,30 +1,39 @@
-FROM dunglas/frankenphp
+# SPDX-FileCopyrightText: © 2025 Clifford Weinmann <https://www.cliffordweinmann.com/>
+# SPDX-License-Identifier: MIT-0
 
-RUN install-php-extensions \
-    pcntl \
-    pdo_mysql \
-    redis \
-    opcache \
-    xdebug \
-    zip \
-    bcmath \
-    sockets \
-    intl \
-    gd \
-    imagick \
-    exif \
-    gmp \
-    soap \
-    xml \
-    zip \
-    bz2 \
-    calendar \
-    tokenizer
+### NPM
+FROM docker.io/library/node:22.14.0-alpine3.21 AS node
+RUN mkdir /app
+COPY package.json package-lock.json /app/
+WORKDIR /app
 
-COPY . /app
+RUN npm install
+COPY . /app/
+RUN npm run build
 
-RUN composer install
+### PHP
+FROM docker.io/dunglas/frankenphp:1.4.4-php8.3.17-alpine AS frankenphp
+RUN install-php-extensions zip intl
+WORKDIR /app
+
+RUN apk add --no-cache composer
+
+# Enable PHP production settings
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+# Create a non-root user
+ARG MYUSER=appuser
+ARG MYUID=1042
+RUN echo 'Adding user' \
+	&& adduser -D -u ${MYUID} ${MYUSER}; \
+	setcap -r /usr/local/bin/frankenphp; \
+	chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
+
+USER ${MYUID}
+COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
+RUN composer.phar install
+
+RUN php artisan storage:link
 
 ENV SERVER_NAME=:8080
 
-ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
