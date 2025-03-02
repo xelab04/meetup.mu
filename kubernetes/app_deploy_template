@@ -21,7 +21,7 @@ spec:
         - image: registry.alexbissessur.dev/meetups:{{ version }}
           name: meetups
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: env-cfm

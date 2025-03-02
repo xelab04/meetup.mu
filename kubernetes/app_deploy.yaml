@@ -5,7 +5,7 @@ metadata:
     app: meetups
   name: meetups
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: meetups
@@ -21,7 +21,7 @@ spec:
         - image: registry.alexbissessur.dev/meetups:3.8
           name: meetups
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: env-cfm
