@@ -28,15 +28,14 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 ARG MYUSER=appuser
 ARG MYUID=1042
 RUN echo 'Adding user' \
-    && adduser -D -u ${MYUID} ${MYUSER}; \
-    setcap -r /usr/local/bin/frankenphp; \
-    chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
+	&& adduser -D -u ${MYUID} ${MYUSER}; \
+	setcap -r /usr/local/bin/frankenphp; \
+	chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
 
 USER ${MYUID}
 COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
-# RUN composer update --ignore-platform-req=ext-session --ignore-platform-req=ext-tokenizer --ignore-platform-req=ext-xml
-# RUN composer install --ignore-platform-req=ext-intl --ignore-platform-req=ext-session --ignore-platform-req=ext-fileinfo --ignore-platform-req=ext-dom --ignore-platform-req=ext-tokenizer --ignore-platform-req=ext-xmlreader --ignore-platform-req=ext-xml --ignore-platform-req=ext-xmlwriter
-RUN composer install
+RUN composer.phar install
+
 RUN php artisan storage:link
 
 ENV SERVER_NAME=:8080
