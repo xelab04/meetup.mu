@@ -13,7 +13,28 @@ RUN npm run build
 
 ### PHP
 FROM docker.io/dunglas/frankenphp:1.4.4-php8.3.17-alpine AS frankenphp
-RUN install-php-extensions zip intl
+
+RUN install-php-extensions \
+    pcntl \
+    pdo_mysql \
+    redis \
+    opcache \
+    xdebug \
+    zip \
+    bcmath \
+    sockets \
+    intl \
+    gd \
+    imagick \
+    exif \
+    gmp \
+    soap \
+    xml \
+    zip \
+    bz2 \
+    calendar \
+    tokenizer
+
 WORKDIR /app
 
 RUN apk add --no-cache composer
