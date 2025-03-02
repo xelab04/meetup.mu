@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
-  APP_DEBUG: "true"
-  APP_ENV: local
+  APP_DEBUG: "false"
+  APP_ENV: production
   APP_FAKER_LOCALE: en_US
   APP_FALLBACK_LOCALE: en
   # APP_KEY:
@@ -41,13 +41,13 @@ data:
   MAIL_USERNAME: "null"
   MEMCACHED_HOST: 127.0.0.1
   PHP_CLI_SERVER_WORKERS: "4"
-  QUEUE_CONNECTION: database
+  QUEUE_CONNECTION: sync
   REDIS_CLIENT: predis
   REDIS_HOST: redis-svc
   REDIS_PASSWORD: "null"
   REDIS_PORT: "6379"
   SESSION_DOMAIN: "null"
-  SESSION_DRIVER: database
+  SESSION_DRIVER: redis
   SESSION_ENCRYPT: "false"
   SESSION_LIFETIME: "120"
   SESSION_PATH: /
