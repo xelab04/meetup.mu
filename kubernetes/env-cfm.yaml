@@ -4,7 +4,6 @@ data:
   APP_ENV: production
   APP_FAKER_LOCALE: en_US
   APP_FALLBACK_LOCALE: en
-  # APP_KEY:
   APP_LOCALE: en
   APP_MAINTENANCE_DRIVER: file
   APP_NAME: Laravel
@@ -47,7 +46,7 @@ data:
   REDIS_PASSWORD: "null"
   REDIS_PORT: "6379"
   SESSION_DOMAIN: "null"
-  SESSION_DRIVER: redis
+  SESSION_DRIVER: database
   SESSION_ENCRYPT: "false"
   SESSION_LIFETIME: "120"
   SESSION_PATH: /
