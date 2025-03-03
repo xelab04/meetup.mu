@@ -14,6 +14,10 @@ RUN npm run build
 ### PHP
 FROM docker.io/dunglas/frankenphp:1.4.4-php8.3.17-alpine AS frankenphp
 
+WORKDIR /app
+
+COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
+
 RUN install-php-extensions \
     pcntl \
     pdo_mysql \
@@ -35,8 +39,6 @@ RUN install-php-extensions \
     calendar \
     tokenizer
 
-WORKDIR /app
-
 RUN apk add --no-cache composer
 
 # Enable PHP production settings
@@ -46,15 +48,14 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 ARG MYUSER=appuser
 ARG MYUID=1042
 RUN echo 'Adding user' \
-	&& adduser -D -u ${MYUID} ${MYUSER}; \
-	setcap -r /usr/local/bin/frankenphp; \
-	chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
+    && adduser -D -u ${MYUID} ${MYUSER}; \
+    setcap -r /usr/local/bin/frankenphp; \
+    chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
 
 USER ${MYUID}
-COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
+
 RUN composer.phar install
 
 RUN php artisan storage:link
 
 ENV SERVER_NAME=:8080
-
