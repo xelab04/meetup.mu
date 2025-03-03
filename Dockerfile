@@ -51,6 +51,7 @@ RUN echo 'Adding user' \
     && adduser -D -u ${MYUID} ${MYUSER}; \
     setcap -r /usr/local/bin/frankenphp; \
     chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
+RUN echo APP_KEY= > .env
 
 USER ${MYUID}
 
