@@ -57,5 +57,6 @@ USER ${MYUID}
 RUN composer.phar install
 
 RUN php artisan storage:link
+RUN php artisan key:generate
 
 ENV SERVER_NAME=:8080
