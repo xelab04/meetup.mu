@@ -44,6 +44,8 @@ RUN apk add --no-cache composer
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
+RUN echo APP_KEY= > .env
+
 # Create a non-root user
 ARG MYUSER=appuser
 ARG MYUID=1042
@@ -51,7 +53,6 @@ RUN echo 'Adding user' \
     && adduser -D -u ${MYUID} ${MYUSER}; \
     setcap -r /usr/local/bin/frankenphp; \
     chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
-RUN echo APP_KEY= > .env
 
 USER ${MYUID}
 
