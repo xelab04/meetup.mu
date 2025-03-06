@@ -43,6 +43,6 @@ class User extends Authenticatable
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true; #$this->hasVerifiedEmail();
+        return true;
     }
 }
