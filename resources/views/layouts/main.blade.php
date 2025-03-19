@@ -6,7 +6,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Mauritius Meetups</title>
-        <link rel="icon" href="images/favicon.svg" sizes="any" type="image/svg+xml">
+        <link rel="icon" href="/images/favicon.svg" sizes="any" type="image/svg+xml">
 
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
