@@ -18,13 +18,32 @@ spec:
         app: meetups
     spec:
       containers:
-        - image: registry.alexbissessur.dev/meetups:3.12
+        - image: registry.alexbissessur.dev/meetups:3.13
           name: meetups
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: env-cfm
+
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_PASSWORD
+
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_DATABASE
           imagePullPolicy: Always
 
       imagePullSecrets:

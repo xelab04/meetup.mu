@@ -25,6 +25,25 @@ spec:
           envFrom:
             - configMapRef:
                 name: env-cfm
+
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_PASSWORD
+
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: MYSQL_DATABASE
           imagePullPolicy: Always
 
       imagePullSecrets:

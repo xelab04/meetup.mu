@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string("type");
             $table->string("community");
             $table->string("title");
-            $table->string("abstract");
+            $table->string("abstract")->nullable();
             $table->string("location")->nullable();
             $table->text("registration");
             $table->dateTime("date");

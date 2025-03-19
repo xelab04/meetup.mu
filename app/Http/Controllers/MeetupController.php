@@ -30,7 +30,7 @@ class MeetupController extends Controller
         // $meetups = Meetup::orderBy("date", "asc")->get();
         $meetups = Cache::remember("meetups_past", 600, function () {
             return Meetup::where("date", "<=", Carbon::now())
-                ->orderBy("date", "asc")
+                ->orderBy("date", "desc")
                 ->get();
         });
 
@@ -58,7 +58,7 @@ class MeetupController extends Controller
         ) {
             return Meetup::where("community", $community)
                 ->where("date", "<=", Carbon::now())
-                ->orderBy("date", "asc")
+                ->orderBy("date", "desc")
                 ->get();
         });
 
