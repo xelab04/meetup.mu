@@ -20,7 +20,7 @@ jobs:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         
-    # - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
     
     - name: Get Docker version
       run: echo "APP_VERSION=$(cat version.txt)" >> $GITHUB_ENV
