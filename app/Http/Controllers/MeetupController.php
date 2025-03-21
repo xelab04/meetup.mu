@@ -39,7 +39,7 @@ class MeetupController extends Controller
 
     public function community($community)
     {
-        $meetups = Cache::remember("community", 600, function () use (
+        $meetups = Cache::remember("community_{$community}", 600, function () use (
             $community
         ) {
             return Meetup::where("community", $community)
@@ -53,7 +53,7 @@ class MeetupController extends Controller
 
     public function past_community($community)
     {
-        $meetups = Cache::remember("meetups_past", 600, function () use (
+        $meetups = Cache::remember("meetups_past_{$community}", 600, function () use (
             $community
         ) {
             return Meetup::where("community", $community)
