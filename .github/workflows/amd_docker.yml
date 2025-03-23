@@ -32,4 +32,4 @@ jobs:
       run: docker buildx create --use --name mybuilder --driver docker-container
 
     - name: Build and push Docker image
-      run: docker buildx build --platform linux/amd64 . -t registry.alexbissessur.dev/meetups:$APP_VERSION --push
+      run: docker buildx build . -t registry.alexbissessur.dev/meetups:$APP_VERSION --push
