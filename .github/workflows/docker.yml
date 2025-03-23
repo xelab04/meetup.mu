@@ -30,12 +30,20 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - uses: actions/checkout@v4
+
+      - name: Get Docker version
+        run: echo "APP_VERSION=$(cat version.txt)" >> $GITHUB_ENV
+
+      - name: Output Docker ver
+        run: echo $APP_VERSION
+
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
           push: true
           platforms: linux/${{ matrix.arch }}
-          tags: registry.alexbissessur.dev/meetups:3.17-${{ matrix.arch }}
+          tags: registry.alexbissessur.dev/meetups:${{ env.APP_VERSION }}-${{ matrix.arch }}
 
   merge-manifest:
     needs: build
@@ -49,9 +57,17 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - uses: actions/checkout@v4
+
+      - name: Get Docker version
+        run: echo "APP_VERSION=$(cat version.txt)" >> $GITHUB_ENV
+
+      - name: Output Docker ver
+        run: echo $APP_VERSION
+
       - name: Create and Push Multi-Arch Manifest
         run: |
-          docker manifest create registry.alexbissessur.dev/meetups:3.17 \
-            registry.alexbissessur.dev/meetups:3.17-amd64 \
-            registry.alexbissessur.dev/meetups:3.17-arm64
-          docker manifest push registry.alexbissessur.dev/meetups:3.17
+          docker manifest create registry.alexbissessur.dev/meetups:${{env.APP_VERSION}} \
+            registry.alexbissessur.dev/meetups:${{env.APP_VERSION}}-amd64 \
+            registry.alexbissessur.dev/meetups:${{env.APP_VERSION}}-arm64
+          docker manifest push registry.alexbissessur.dev/meetups:${{env.APP_VERSION}}
