@@ -86,6 +86,9 @@
                 <p class="text-sm md:text-base">
                     Made by the wider Mauritian tech community <3
                 </p>
+                <p class="text-sm md:text-base text-gray-400">
+                    v {{ trim(file_get_contents(base_path('version.txt'))) }}
+                </p>
             </div>
         </footer>
 
