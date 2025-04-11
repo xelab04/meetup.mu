@@ -2,7 +2,7 @@
 
 @section('today')
     @foreach($todays as $today)
-        <x-card :meetup="$today" />
+        <x-cardtoday :meetup="$today" />
     @endforeach
 @endsection
 
