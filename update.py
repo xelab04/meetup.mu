@@ -2,7 +2,7 @@ import sys
 
 def check_args():
     if len(sys.argv) != 2:
-        print("Usage: python update.py [major/minor]")
+        print("Usage: python update.py [major/minor/render]")
         print("Defaulting to minor version change")
         return "minor"
     return sys.argv[1]
@@ -40,6 +40,11 @@ def render_template(version):
 
 def main():
     ver = check_args()
+
+    if ver == "render":
+        render_template(ver)
+        return 0
+
     major, minor = get_version()
     new_ver = update_version(major, minor, ver)
 
