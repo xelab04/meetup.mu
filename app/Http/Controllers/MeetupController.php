@@ -11,10 +11,13 @@ class MeetupController extends Controller
 {
     public function home()
     {
-        // $meetups = Meetup::orderBy("date", "asc")->get();
-        // $meetups = Meetup::where("date", ">=", Carbon::now())
-        //     ->orderBy("date", "asc")
-        //     ->get();
+        $todays = Cache::remember("meetups_today", 600, function () {
+            return Meetup::whereDate('date', '=', Carbon::today())
+                ->orderBy('date', 'asc')
+                ->get();
+        });
+
+        // dd($today);
 
         $meetups = Cache::remember("meetups_home", 600, function () {
             return Meetup::where("date", ">=", Carbon::now())
@@ -22,7 +25,7 @@ class MeetupController extends Controller
                 ->get();
         });
 
-        return view("index", compact("meetups"));
+        return view("index", compact("meetups", "todays"));
     }
 
     public function past()
@@ -43,7 +46,7 @@ class MeetupController extends Controller
             $community
         ) {
             return Meetup::where("community", $community)
-                ->where("date", ">=", Carbon::now())
+                ->where("date", ">=", Carbon::today())
                 ->orderBy("date", "asc")
                 ->get();
         });

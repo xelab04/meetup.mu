@@ -73,6 +73,8 @@
             @yield('nav')
 
             <!-- Cards Section -->
+            @yield('today')
+
             @foreach($meetups as $meetup)
                 <x-card :meetup="$meetup" />
             @endforeach
