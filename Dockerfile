@@ -5,11 +5,12 @@ FROM docker.io/library/node:22.14.0-alpine3.21 AS node
 
 WORKDIR /app
 
-COPY package.json package-lock.json /app/
+COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm ci
 
-COPY . /app/
+COPY resources/ ./
+COPY *.js ./
 
 RUN npm run build
 
@@ -45,6 +46,8 @@ RUN install-php-extensions \
 
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY . .
 
 # Create a non-root user
 ARG MYUSER=appuser
