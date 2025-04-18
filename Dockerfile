@@ -3,13 +3,15 @@
 
 ### NPM
 FROM docker.io/library/node:22.14.0-alpine3.21 AS node
-RUN mkdir /app
-COPY package.json package-lock.json /app/
+
 WORKDIR /app
 
-RUN npm install
-COPY . /app/
-RUN npm run build
+COPY package.json package-lock.json .
+
+RUN npm ci
+
+COPY resources/ .
+COPY *.js .
 
 ### PHP
 FROM docker.io/dunglas/frankenphp:1.4.4-php8.3.17-alpine AS frankenphp
@@ -43,6 +45,8 @@ RUN apk add --no-cache composer
 
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY . .
 
 RUN echo APP_KEY= > .env
 
