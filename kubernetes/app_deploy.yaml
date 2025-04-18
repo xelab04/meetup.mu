@@ -18,8 +18,9 @@ spec:
         app: meetups
     spec:
       containers:
-        - image: registry.alexbissessur.dev/meetups:3.21
+        - image: registry.alexbissessur.dev/meetups:4.21
           name: meetups
+          command: ["php", "artisan", "migrate", "--force"]
           ports:
             - containerPort: 8080
           envFrom:
