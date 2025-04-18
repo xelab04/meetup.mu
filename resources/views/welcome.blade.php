@@ -50,22 +50,9 @@
 
         <div class="absolute top-4 left-2">
             <a href="/">
-            <div id="home" class="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none *:w-6 *:h-6">
-                <img src="{{ asset('images/home-light.svg') }}" class="dark:hidden block" width="32" height="32">
-                <img src="{{ asset('images/home-dark.svg') }}" class="hidden dark:block" width="32" height="32">
-            </div>
-            </a>
-        </div>
-
-        <div class="absolute top-4 left-20">
-            <a href="/profile">
-            <div id="profile" class="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none *:w-6 *:h-6">
-                <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32px" height="32px">
-                  <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
-                    <path d="M16 9a4 4 0 1 1-8 0a4 4 0 0 1 8 0m-2 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0" />
-                    <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11s11-4.925 11-11S18.075 1 12 1M3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0 1 12.065 14a8.984 8.984 0 0 1 7.092 3.458A9 9 0 1 0 3 12m9 9a8.963 8.963 0 0 1-5.672-2.012A6.992 6.992 0 0 1 12.065 16a6.991 6.991 0 0 1 5.689 2.92A8.964 8.964 0 0 1 12 21" />
-                  </g>
-                </svg>
+            <div id="github" class="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none *:w-6 *:h-6">
+                <img src="{{ asset('images/dashboard-light.svg') }}" class="dark:hidden block" width="32" height="32">
+                <img src="{{ asset('images/dashboard-dark.svg') }}" class="hidden dark:block" width="32" height="32">
             </div>
             </a>
         </div>
@@ -83,14 +70,6 @@
                 </div>
             </section>
 
-            @yield('nav')
-
-            <!-- Cards Section -->
-            @yield('today')
-
-            @foreach($meetups as $meetup)
-                <x-card :meetup="$meetup" />
-            @endforeach
         </main>
 
         <!-- Footer -->
