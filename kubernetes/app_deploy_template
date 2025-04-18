@@ -26,6 +26,8 @@ spec:
                 name: env-cfm
             - secretRef:
                 name: mail-secret
+            - secretRef:
+                name: app-key
           env:
             - name: DB_USERNAME
               valueFrom:
