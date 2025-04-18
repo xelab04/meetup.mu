@@ -73,4 +73,4 @@ This project is made possible a few amazing people. I just want to have a lil cr
 - [Cedric](https://github.com/cedpoilly) for making a small but useful change to how registration is handled.
 - [Mr Sunshyne](https://github.com/MrSunshyne/) for redoing the entire frontend and making it actually pretty.
 - [Bruno](https://github.com/eznix86/) for sponsoring the domain name for 2 years and helping with all my Laravel questions.
-- [Alex (me)](https://github.com/xelab04) for starting the whole thing, and hosting it on his Kubernetes homelab.
+- [Alex (me)](https://github.com/xelab04) for starting the whole thing, and hosting it on his Kubernetes homelab. Also for doing most of the Laravel work.
