@@ -31,4 +31,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/debug-proto', function (\Illuminate\Http\Request $request) {
+    return [
+        'secure' => $request->secure(),
+        'scheme' => $request->getScheme(),
+        'url' => $request->fullUrl(),
+        'headers' => $request->headers->all()
+    ];
+});
+
 require __DIR__.'/auth.php';
