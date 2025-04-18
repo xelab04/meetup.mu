@@ -25,6 +25,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: env-cfm
+            - secretRef:
+                name: mail-secret
           env:
             - name: DB_USERNAME
               valueFrom:
