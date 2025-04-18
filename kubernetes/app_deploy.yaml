@@ -17,6 +17,7 @@ spec:
       labels:
         app: meetups
     spec:
+      containers:
       initContainers:
         - name: migrate
           image: registry.alexbissessur.dev/meetups:4.21
@@ -24,6 +25,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: env-cfm
+            - secretRef:
+                name: mail-secret
           env:
             - name: DB_USERNAME
               valueFrom:
@@ -40,18 +43,14 @@ spec:
                 secretKeyRef:
                   name: env-secret
                   key: MYSQL_DATABASE
-          imagePullPolicy: Always
 
-      containers:
-        - image: registry.alexbissessur.dev/meetups:4.21
+        - image: registry.alexbissessur.dev/meetups:4.22
           name: meetups
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: env-cfm
-            - secretRef:
-                name: mail-secret
 
           env:
             - name: DB_USERNAME
