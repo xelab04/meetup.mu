@@ -1,18 +1,22 @@
 # SPDX-FileCopyrightText: © 2025 Clifford Weinmann <https://www.cliffordweinmann.com/>
 # SPDX-License-Identifier: MIT-0
 
-### NPM
 FROM docker.io/library/node:22.14.0-alpine3.21 AS node
-RUN mkdir /app
-COPY package.json package-lock.json /app/
+
 WORKDIR /app
 
+COPY package.json package-lock.json /app/
+
 RUN npm install
+
 COPY . /app/
+
 RUN npm run build
 
-### PHP
 FROM docker.io/dunglas/frankenphp:1.4.4-php8.3.17-alpine AS frankenphp
+
+ARG MYUSER=appuser
+ARG MYUID=1042
 
 WORKDIR /app
 
@@ -39,16 +43,13 @@ RUN install-php-extensions \
     calendar \
     tokenizer
 
-RUN apk add --no-cache composer
-
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
-RUN echo APP_KEY= > .env
 
 # Create a non-root user
 ARG MYUSER=appuser
 ARG MYUID=1042
+
 RUN echo 'Adding user' \
     && adduser -D -u ${MYUID} ${MYUSER}; \
     setcap -r /usr/local/bin/frankenphp; \
@@ -56,9 +57,21 @@ RUN echo 'Adding user' \
 
 USER ${MYUID}
 
-RUN composer.phar install
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN php artisan storage:link
-RUN php artisan key:generate
+RUN composer install --no-dev --optimize-autoloader
 
-ENV SERVER_NAME=:8080
+RUN wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -m) && \
+    chmod +x /usr/bin/dumb-init
+
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+
+EXPOSE 8080
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
+
+CMD ["php", "artisan", "octane:frankenphp", "--port=8080", "--host=0.0.0.0"]
