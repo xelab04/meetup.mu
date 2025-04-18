@@ -44,7 +44,6 @@ spec:
 
         - image: registry.alexbissessur.dev/meetups:{{ version }}
           name: meetups
-          command: ["php", "artisan", "migrate", "--force"]
           ports:
             - containerPort: 8080
           envFrom:
