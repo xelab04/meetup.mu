@@ -77,6 +77,15 @@ ENV APP_DEBUG=false
 
 EXPOSE 8080
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
+RUN php artisan storage:link
 
-CMD ["php", "artisan", "octane:frankenphp", "--port=8080", "--host=0.0.0.0"]
+RUN php artisan config:cache
+RUN php artisan event:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
+
+# CMD ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
+
+# CMD ["php", "artisan", "octane:frankenphp", "--port=8080", "--host=0.0.0.0"]
+
+ENV SERVER_NAME=:8080
