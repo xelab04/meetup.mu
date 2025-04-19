@@ -80,12 +80,12 @@ EXPOSE 8080
 RUN php artisan storage:link
 
 # RUN php artisan config:cache
-RUN php artisan event:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+# RUN php artisan event:cache
+# RUN php artisan route:cache
+# RUN php artisan view:cache
 
-# CMD ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
+CMD ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
 
-# CMD ["php", "artisan", "octane:frankenphp", "--port=8080", "--host=0.0.0.0"]
+CMD ["php", "artisan", "octane:frankenphp", "--port=8080", "--host=0.0.0.0"]
 
-ENV SERVER_NAME=:8080
+# ENV SERVER_NAME=:8080
