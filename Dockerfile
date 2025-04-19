@@ -1,6 +1,3 @@
-# SPDX-FileCopyrightText: © 2025 Clifford Weinmann <https://www.cliffordweinmann.com/>
-# SPDX-License-Identifier: MIT-0
-
 FROM docker.io/library/node:22.14.0-alpine3.21 AS node
 
 WORKDIR /app
