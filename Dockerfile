@@ -79,7 +79,7 @@ EXPOSE 8080
 
 RUN php artisan storage:link
 
-RUN php artisan config:cache
+# RUN php artisan config:cache
 RUN php artisan event:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
