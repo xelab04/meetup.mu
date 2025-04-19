@@ -20,6 +20,7 @@ spec:
       initContainers:
         - name: migrate
           image: registry.alexbissessur.dev/meetups:{{ version }}
+          imagePullPolicy: IfNotPresent
           command: ["php", "artisan", "migrate", "--force"]
           envFrom:
             - configMapRef:
@@ -45,6 +46,7 @@ spec:
       containers:
         - image: registry.alexbissessur.dev/meetups:{{ version }}
           name: meetups
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           envFrom:
@@ -73,7 +75,6 @@ spec:
                 secretKeyRef:
                   name: env-secret
                   key: MYSQL_DATABASE
-          imagePullPolicy: Always
 
       imagePullSecrets:
         - name: regcred
