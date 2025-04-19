@@ -7,10 +7,11 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci
+COPY resources ./resources
 
-COPY resources/ ./
 COPY *.js ./
+
+RUN npm ci
 
 RUN npm run build
 
@@ -47,7 +48,9 @@ RUN install-php-extensions \
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-COPY . .
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+USER 0
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Create a non-root user
 ARG MYUSER=appuser
@@ -58,22 +61,21 @@ RUN echo 'Adding user' \
     setcap -r /usr/local/bin/frankenphp; \
     chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
 
-USER ${MYUID}
+RUN wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -m) && \
+    chmod +x /usr/bin/dumb-init
+
+# USER ${MYUID}
+
+COPY . .
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install --no-dev --optimize-autoloader
 
-RUN wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -m) && \
-    chmod +x /usr/bin/dumb-init
-
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 
 EXPOSE 8080
-
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
 
