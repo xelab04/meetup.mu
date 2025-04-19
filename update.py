@@ -42,6 +42,9 @@ def main():
     ver = check_args()
 
     if ver == "render":
+        major, minor = get_version()
+        ver = f"{major}.{minor}"
+        print(ver)
         render_template(ver)
         return 0
 
