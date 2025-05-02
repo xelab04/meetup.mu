@@ -21,6 +21,31 @@ class MeetupResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $user = auth()->user();
+        $isSuperAdmin = $user->admin === '*';
+        
+        // For superadmins, show all communities; otherwise, only show their assigned community
+        $communityOptions = [
+            "mscc" => "MSCC",
+            "cloudnativemu" => "Cloud Native MU",
+            "frontendmu" => "Frontend MU",
+            "dodocore" => "DodoCore",
+            "pymug" => "PYMUG",
+            "laravelmoris" => "LaravelMoris",
+            "nugm" => "NUGM",
+            "gophersmu" => "Gophers MU",
+        ];
+        
+        // If user is not a superadmin and has a specific community assigned
+        if (!$isSuperAdmin && $user->admin) {
+            // Filter to only show the user's assigned community
+            if (isset($communityOptions[$user->admin])) {
+                $communityOptions = [
+                    $user->admin => $communityOptions[$user->admin]
+                ];
+            }
+        }
+
         return $form->schema([
             Forms\Components\TextInput::make("title")
                 ->required()
@@ -36,16 +61,9 @@ class MeetupResource extends Resource
                 ->maxLength(255),
             Forms\Components\DatePicker::make("date")->required(),
             Forms\Components\Select::make("community")
-                ->options([
-                    "mscc" => "MSCC",
-                    "cloudnativemu" => "Cloud Native MU",
-                    "frontendmu" => "Frontend MU",
-                    "dodocore" => "DodoCore",
-          		    "pymug" => "PYMUG",
-          		    "laravelmoris" => "LaravelMoris",
-                    "nugm" => "NUGM",
-                    "gophersmu" => "Gophers MU",
-                ])
+                ->options($communityOptions)
+                ->default((!$isSuperAdmin && $user->admin) ? $user->admin : null)
+                ->disabled((!$isSuperAdmin && $user->admin))
                 ->required(),
             Forms\Components\Select::make("type")
                 ->options([
@@ -85,6 +103,25 @@ class MeetupResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+    
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = auth()->user();
+        
+        // If user is not a superadmin, only show meetups for their community
+        if ($user->admin !== '*' && $user->admin) {
+            $query->where('community', $user->admin);
+        }
+        
+        return $query;
+    }
+
+    public static function canAccess(): bool
+    {
+        // Any user with admin rights can access this resource
+        return auth()->user()->admin != null;
     }
 
     public static function getRelations(): array
