@@ -4,9 +4,14 @@
 
 @section('today')
 <section class="w-full px-4 py-8">
-    <div class="container mx-auto max-w-4xl">
+    <div class="container mx-auto max-w-4xl rounded-xl {{ session('message') ? 'border-red-500 border-t-8' : '' }}">
+        @if (session('message'))
+            <div class="bg-red-500 border-b-8 border-red-500">
+                <p class="text-white text-center font-bold">{{ session('message') }}</p>
+            </div>
+        @endif
         <!-- Meetup Detail Card -->
-        <div class="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-xl p-8 mb-8">
+        <div class="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700  shadow-xl p-8 mb-8">
             <!-- Header with Date and Community -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <span class="px-4 py-2 rounded-full bg-teal-600 text-white font-semibold uppercase text-sm tracking-wide">

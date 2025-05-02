@@ -17,6 +17,7 @@ class RSVPController extends Controller
         if ($user->rsvps()->where('event_id', $meetup)->exists()) {
             $rsvp = $user->rsvps()->where('event_id', $meetup)->first();
             $rsvp->delete();
+            $message = "Successfully un-rsvped";
         }
 
         else {
@@ -25,9 +26,14 @@ class RSVPController extends Controller
                 'event_id' => $meetup,
                 'attendance' => false,
             ]);
+            $message = "RSVP successful";
         }
 
-        return redirect()->route('home');
+
+        return redirect()
+            ->route('meetup', ['meetup' => $meetup])
+            ->with('message', $message);
+        // return redirect()->route('home');
     }
 
 

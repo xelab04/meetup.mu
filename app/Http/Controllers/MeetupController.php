@@ -74,6 +74,7 @@ class MeetupController extends Controller
         $meetup = Meetup::where("id", $meetup)->firstOrFail();
         $rsvpCount = RSVP::where("event_id", $meetup->id)->count();
         // dd($rsvpCount);
+        // $message = null;
         return view("meetup", compact("meetup", "rsvpCount"));
     }
 
