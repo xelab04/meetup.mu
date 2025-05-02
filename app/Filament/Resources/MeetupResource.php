@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MeetupResource\Pages;
 use App\Filament\Resources\MeetupResource\RelationManagers;
+use App\Filament\Resources\MeetupResource\RelationManagers\RSVPsRelationManager;
 use App\Models\Meetup;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -87,6 +88,16 @@ class MeetupResource extends Resource
                 Tables\Columns\TextColumn::make("location"),
                 Tables\Columns\TextColumn::make("date")
                     ->sortable(),
+                Tables\Columns\TextColumn::make("rsvp_count")
+                    ->label('RSVPs')
+                    ->sortable()
+                    ->counts('rsvps'),
+                Tables\Columns\TextColumn::make("attendance_count")
+                    ->label('Attendance')
+                    ->sortable()
+                    ->getStateUsing(function (Meetup $record) {
+                        return $record->getAttendanceCountAttribute() . ' / ' . $record->getRsvpCountAttribute();
+                    }),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('community')
@@ -131,8 +142,8 @@ class MeetupResource extends Resource
     public static function getRelations(): array
     {
         return [
-                //
-            ];
+            RSVPsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
