@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Meetup;
 use App\Models\RSVP;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,6 +14,9 @@ class RSVPController extends Controller
     {
         $user = Auth::user();
 
+        $count = RSVP::where('event_id', $meetup)->count();
+        $capacity = Meetup::find($meetup)->first()->capacity;
+
         // un-rsvp if already rsvped
         if ($user->rsvps()->where('event_id', $meetup)->exists()) {
             $rsvp = $user->rsvps()->where('event_id', $meetup)->first();
@@ -21,12 +25,19 @@ class RSVPController extends Controller
         }
 
         else {
-            RSVP::create([
-                'user_id' => $user->id,
-                'event_id' => $meetup,
-                'attendance' => false,
-            ]);
-            $message = "RSVP successful";
+            if ($count == $capacity)
+            {
+                $message = "Event is full";
+            }
+            else
+            {
+                RSVP::create([
+                    'user_id' => $user->id,
+                    'event_id' => $meetup,
+                    'attendance' => false,
+                ]);
+                $message = "RSVP successful";
+            }
         }
 
 
