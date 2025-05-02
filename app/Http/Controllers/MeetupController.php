@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Meetup;
+use App\Models\RSVP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
@@ -71,8 +72,9 @@ class MeetupController extends Controller
     public function meetup($meetup)
     {
         $meetup = Meetup::where("id", $meetup)->firstOrFail();
-
-        return view("meetup", compact("meetup"));
+        $rsvpCount = RSVP::where("meetup_id", $meetup->id)->count();
+        dd($rsvpCount);
+        return view("meetup", compact("meetup", "rsvpCount"));
     }
 
     /**

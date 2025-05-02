@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rsvp', function (Blueprint $table) {
+        Schema::create('r_s_v_p_s', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('event_id')->references('id')->on('events');
