@@ -53,6 +53,7 @@ class MeetupResource extends Resource
                 ->maxLength(255),
             Forms\Components\MarkdownEditor::make("abstract")
                 ->required()
+                ->columnSpan(2)
                 ->maxLength(2000),
             Forms\Components\TextInput::make("location")
                 ->required()
@@ -74,6 +75,7 @@ class MeetupResource extends Resource
                     "meetup" => "Meetup",
                     "conference" => "Conference",
                 ])
+                ->default("meetup")
                 ->required(),
 
         ]);
