@@ -53,8 +53,7 @@
                 </div>
             </div>
 
-            <!-- Capacity Information (if available) -->
-            @if(isset($meetup->capacity) && $meetup->capacity > 0)
+            <!-- Capacity Information-->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">Capacity</h2>
                 <div class="flex items-center">
@@ -66,7 +65,6 @@
                     </span>
                 </div>
             </div>
-            @endif
 
             <!-- Registration Button -->
             <form action="{{ route('rsvp', $meetup->id) }}" method="POST" style="display: inline" class="">
