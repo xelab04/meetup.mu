@@ -32,6 +32,10 @@
                 {{ $meetup->type }}
             </span>
         </div>
-        <a href="{{ $meetup->registration }}" class="absolute inset-0 z-0" target="_blank" aria-label="RSVP!"></a>
+        @if(is_null($meetup->registration))
+            <a href="meetup/{{ $meetup->id }}" class="absolute inset-0 z-0" target="" aria-label="RSVP!"></a>
+        @else
+            <a href="{{ $meetup->registration }}" class="absolute inset-0 z-0" target="_blank" aria-label="RSVP!"></a>
+        @endif
     </div>
 </section>

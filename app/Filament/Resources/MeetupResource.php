@@ -57,7 +57,7 @@ class MeetupResource extends Resource
                 ->required()
                 ->maxLength(255),
             Forms\Components\TextInput::make("registration")
-                ->required()
+                ->disabled()
                 ->maxLength(255),
             Forms\Components\TextInput::make("capacity")
                 ->required()
