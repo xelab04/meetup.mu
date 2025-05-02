@@ -124,4 +124,9 @@ class UsersResource extends Resource
             'edit' => Pages\EditUsers::route('/{record}/edit'),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->admin === '*';
+    }
 }
