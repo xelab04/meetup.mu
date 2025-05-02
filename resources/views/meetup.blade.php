@@ -10,7 +10,7 @@
             <!-- Header with Date and Community -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <span class="px-4 py-2 rounded-full bg-teal-600 text-white font-semibold uppercase text-sm tracking-wide">
-                    {{ $meetup->date->format('F d, Y - g:i A') }}
+                    {{ $meetup->date->format('F d, Y') }}
                 </span>
                 <a href="{{ route('community', $meetup->community) }}" class="community-website">
                     <span class="px-4 py-2 rounded-full bg-gray-800 text-white font-semibold uppercase text-sm tracking-wide dark:bg-gray-600 hover:text-blue-400 hover:underline duration-300">
