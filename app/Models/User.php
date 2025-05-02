@@ -46,4 +46,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     {
         return $this->admin != null;
     }
+
+    public function rsvps()
+    {
+        return $this->hasMany(RSVP::class);
+    }
+
 }

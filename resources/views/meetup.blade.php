@@ -69,11 +69,34 @@
             @endif
 
             <!-- Registration Button -->
-            <div class="mt-10">
-                <a href="{{ $meetup->registration }}" target="_blank" class="inline-block px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-medium text-lg rounded-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50">
-                    Register for this event
-                </a>
-            </div>
+            <form action="{{ route('rsvp', $meetup->id) }}" method="POST" style="display: inline" class="">
+            @csrf
+            @method('POST')
+                <!-- If event is full -->
+                @if ($rsvpCount == $meetup->capacity)
+                    <div class="mt-10">
+                        <div class="inline-block px-6 py-3 bg-gray-700 text-white font-medium text-lg rounded-lg">
+                            <button type="submit" class="disabled:opacity-50" disabled>
+                                All Seats Taken
+                            </button>
+                        </div>
+                    </div>
+
+                @else
+                    <div class="mt-10">
+                        <div class="inline-block px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-medium text-lg rounded-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50">
+                            <button type="submit">
+                                @if (Auth::user()->rsvps()->where('event_id', $meetup->id)->exists())
+                                    Un-RSVP
+                                @else
+                                    Register for this event
+                                @endif
+                            </button>
+                        </div>
+                    </div>
+                @endif
+            </form>
+
         </div>
 
         <!-- Navigation Buttons -->

@@ -3,10 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\RSVP;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RSVPController extends Controller
 {
+    public function rsvp($meetup)
+    {
+        $user = Auth::user();
+
+        // un-rsvp if already rsvped
+        if ($user->rsvps()->where('event_id', $meetup)->exists()) {
+            $rsvp = $user->rsvps()->where('event_id', $meetup)->first();
+            $rsvp->delete();
+        }
+
+        else {
+            RSVP::create([
+                'user_id' => $user->id,
+                'event_id' => $meetup,
+                'attendance' => false,
+            ]);
+        }
+
+        return redirect()->route('home');
+    }
+
+
     /**
      * Display a listing of the resource.
      */

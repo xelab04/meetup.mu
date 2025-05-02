@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MeetupController;
+use App\Http\Controllers\RSVPController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", [MeetupController::class, "home"])->name("home");
@@ -10,6 +11,10 @@ Route::get("/past", [MeetupController::class, "past"])->name("past");
 
 Route::get("/meetup/{meetup}", [MeetupController::class, "meetup"])->name(
     "meetup"
+);
+
+Route::post("/rsvp/{meetup}", [RSVPController::class, "rsvp"])->name(
+    "rsvp"
 );
 
 Route::get("/past/{community}", [
