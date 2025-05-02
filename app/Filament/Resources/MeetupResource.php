@@ -23,7 +23,7 @@ class MeetupResource extends Resource
     {
         $user = auth()->user();
         $isSuperAdmin = $user->admin === '*';
-        
+
         // For superadmins, show all communities; otherwise, only show their assigned community
         $communityOptions = [
             "mscc" => "MSCC",
@@ -35,7 +35,7 @@ class MeetupResource extends Resource
             "nugm" => "NUGM",
             "gophersmu" => "Gophers MU",
         ];
-        
+
         // If user is not a superadmin and has a specific community assigned
         if (!$isSuperAdmin && $user->admin) {
             // Filter to only show the user's assigned community
@@ -59,6 +59,9 @@ class MeetupResource extends Resource
             Forms\Components\TextInput::make("registration")
                 ->required()
                 ->maxLength(255),
+            Forms\Components\TextInput::make("capacity")
+                ->required()
+                ->numeric(),
             Forms\Components\DatePicker::make("date")->required(),
             Forms\Components\Select::make("community")
                 ->options($communityOptions)
@@ -71,6 +74,7 @@ class MeetupResource extends Resource
                     "conference" => "Conference",
                 ])
                 ->required(),
+
         ]);
     }
 
@@ -104,17 +108,17 @@ class MeetupResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
         $user = auth()->user();
-        
+
         // If user is not a superadmin, only show meetups for their community
         if ($user->admin !== '*' && $user->admin) {
             $query->where('community', $user->admin);
         }
-        
+
         return $query;
     }
 
