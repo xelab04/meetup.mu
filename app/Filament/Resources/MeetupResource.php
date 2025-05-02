@@ -41,8 +41,10 @@ class MeetupResource extends Resource
                     "cloudnativemu" => "Cloud Native MU",
                     "frontendmu" => "Frontend MU",
                     "dodocore" => "DodoCore",
-		    "pymug" => "PYMUG",
-		    "laravelmoris" => "LaravelMoris",
+          		    "pymug" => "PYMUG",
+          		    "laravelmoris" => "LaravelMoris",
+                    "nugm" => "NUGM",
+                    "gophersmu" => "Gophers MU",
                 ])
                 ->required(),
             Forms\Components\Select::make("type")
@@ -61,10 +63,21 @@ class MeetupResource extends Resource
                 Tables\Columns\TextColumn::make("community"),
                 Tables\Columns\TextColumn::make("title"),
                 Tables\Columns\TextColumn::make("location"),
-                Tables\Columns\TextColumn::make("date"),
+                Tables\Columns\TextColumn::make("date")
+                    ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('community')
+                    ->options([
+                        "mscc" => "MSCC",
+                        "cloudnativemu" => "Cloud Native MU",
+                        "frontendmu" => "Frontend MU",
+                        "dodocore" => "DodoCore",
+                        "pymug" => "PYMUG",
+                        "laravelmoris" => "LaravelMoris",
+                        "nugm" => "NUGM",
+                        "gophersmu" => "Gophers MU",
+                    ]),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
