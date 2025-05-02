@@ -50,9 +50,9 @@ class MeetupResource extends Resource
             Forms\Components\TextInput::make("title")
                 ->required()
                 ->maxLength(255),
-            Forms\Components\TextInput::make("abstract")
+            Forms\Components\MarkdownEditor::make("abstract")
                 ->required()
-                ->maxLength(255),
+                ->maxLength(2000),
             Forms\Components\TextInput::make("location")
                 ->required()
                 ->maxLength(255),
