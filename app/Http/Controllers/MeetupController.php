@@ -68,6 +68,13 @@ class MeetupController extends Controller
         return view("past-community", compact("meetups", "community"));
     }
 
+    public function meetup($meetup)
+    {
+        $meetup = Meetup::where("id", $meetup)->firstOrFail();
+
+        return view("meetup", compact("meetup"));
+    }
+
     /**
      * Display a listing of the resource.
      */

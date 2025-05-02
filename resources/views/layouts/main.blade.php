@@ -88,9 +88,12 @@
             <!-- Cards Section -->
             @yield('today')
 
-            @foreach($meetups as $meetup)
-                <x-card :meetup="$meetup" />
-            @endforeach
+            <!-- dirty trick for the meetup page itself -->
+            @if(isset($meetups))
+                @foreach($meetups as $meetup)
+                    <x-card :meetup="$meetup" />
+                @endforeach
+            @endif
         </main>
 
         <!-- Footer -->

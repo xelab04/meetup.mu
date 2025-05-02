@@ -8,6 +8,10 @@ Route::get("/", [MeetupController::class, "home"])->name("home");
 
 Route::get("/past", [MeetupController::class, "past"])->name("past");
 
+Route::get("/meetup/{meetup}", [MeetupController::class, "meetup"])->name(
+    "meetup"
+);
+
 Route::get("/past/{community}", [
     MeetupController::class,
     "past_community",
