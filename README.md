@@ -74,4 +74,4 @@ This project is made possible a few amazing people. I just want to have a lil cr
 - [Mr Sunshyne](https://github.com/MrSunshyne/) for redoing the entire frontend and making it actually pretty.
 - [Bruno](https://github.com/eznix86/) for sponsoring the domain name for 2 years and helping with all my Laravel questions.
 - [Clifford](https://github.com/clifford2/) for initiating the frankenphp Dockerfile.
-- [Alex (me)](https://github.com/xelab04) for starting the whole thing, and hosting it on his Kubernetes homelab. Also for doing most of the Laravel work.
+- [Alex (me)](https://github.com/xelab04) started the project, hosts it on K3s homelab, main Laravel dev.
