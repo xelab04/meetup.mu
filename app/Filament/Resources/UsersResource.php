@@ -26,6 +26,12 @@ class UsersResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('firstname')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('lastname')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
@@ -52,6 +58,10 @@ class UsersResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('firstname')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('lastname')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
