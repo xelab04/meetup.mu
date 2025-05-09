@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MeetupController;
 use App\Http\Controllers\RSVPController;
@@ -8,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::get("/", [MeetupController::class, "home"])->name("home");
 
 Route::get("/past", [MeetupController::class, "past"])->name("past");
+
+Route::get("/api/v1/get/c/{community}", [CommunityController::class, "fetch"])->name("api-community");
 
 Route::get("/meetup/{meetup}", [MeetupController::class, "meetup"])->name(
     "meetup"
