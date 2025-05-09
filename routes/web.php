@@ -10,6 +10,10 @@ Route::get("/", [MeetupController::class, "home"])->name("home");
 
 Route::get("/past", [MeetupController::class, "past"])->name("past");
 
+Route::get('/privacypolicy', function () {
+    return view('privacypolicy');
+})->name('privacypolicy');
+
 Route::get("/api/v1/get/c/{community}", [CommunityController::class, "fetch"])->name("api-community");
 
 Route::get("/meetup/{meetup}", [MeetupController::class, "meetup"])->name(
