@@ -15,8 +15,7 @@ class RSVPController extends Controller
         $user = Auth::user();
 
         if ($user == null) {
-            return redirect()
-                -> route("login");
+            return redirect(route('login') . '?redir=' . $meetup);
         }
 
 

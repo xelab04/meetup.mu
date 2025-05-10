@@ -96,7 +96,7 @@
                                         Register for this event
                                     @endif
                                 @else
-                                    RSVP
+                                    Register for this event
                                 @endif
                             </button>
                         </div>

@@ -16,7 +16,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        $redir = request('redir');
+        return view('auth.login', ['redir' => $redir]);
     }
 
     /**
@@ -27,6 +28,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $redir = $request->input('redir');
+
+        if ($redir) {
+            return redirect()->route('meetup', ['meetup' => $redir]);
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
