@@ -1,88 +1,55 @@
-FROM docker.io/library/node:22.14.0-alpine3.21 AS node
+FROM node:22.14.0-slim AS node-base
 
 WORKDIR /app
-
 COPY package.json package-lock.json ./
-
-COPY resources ./resources
-
-COPY *.js ./
-
 RUN npm ci
 
-RUN npm run build
-
-FROM docker.io/dunglas/frankenphp:1.4.4-php8.3.17-alpine AS frankenphp
-
-ARG MYUSER=appuser
-ARG MYUID=1042
+FROM dunglas/frankenphp:1.5.0-php8.3-alpine AS php-base
 
 WORKDIR /app
 
-COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN install-php-extensions \
-    pcntl \
-    pdo_mysql \
-    redis \
-    opcache \
-    xdebug \
-    zip \
-    bcmath \
-    sockets \
-    intl \
-    gd \
-    imagick \
-    exif \
-    gmp \
-    soap \
-    xml \
-    zip \
-    bz2 \
-    calendar \
-    tokenizer
+    bcmath pdo_mysql redis opcache tokenizer xml \
+    pcntl gd imagick intl gmp zip
 
-# Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-USER 0
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Create a non-root user
-ARG MYUSER=appuser
-ARG MYUID=1042
-
-RUN echo 'Adding user' \
-    && adduser -D -u ${MYUID} ${MYUSER}; \
-    setcap -r /usr/local/bin/frankenphp; \
-    chown -R ${MYUSER}:${MYUSER} /data/caddy /config/caddy /app
 
 RUN wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -m) && \
     chmod +x /usr/bin/dumb-init
 
-# USER ${MYUID}
-
-COPY . .
-
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN composer install --no-dev --optimize-autoloader
+FROM node-base AS node-deps
+
+WORKDIR /app
+COPY . .
+RUN npm run build
+
+FROM php-base AS php-deps
+
+WORKDIR /app
+
+COPY composer.json composer.lock ./
+
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+FROM php-deps AS php-prod
+
+COPY --from=node-deps /app/ /app/
+COPY --from=php-deps /app/vendor/ /app/vendor/
 
 ENV APP_ENV=production
 ENV APP_DEBUG=false
+# force http in the container
+ENV SERVER_NAME=:80
 
-EXPOSE 8080
+EXPOSE 80
 
-RUN php artisan storage:link
+ADD --chmod=0755 docker-entrypoint.sh /usr/local/bin
 
-# RUN php artisan config:cache
-# RUN php artisan event:cache
-# RUN php artisan route:cache
-# RUN php artisan view:cache
+RUN php artisan octane:install --server=frankenphp
 
-CMD ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
-
-CMD ["php", "artisan", "octane:frankenphp", "--port=8080", "--host=0.0.0.0"]
-
-# ENV SERVER_NAME=:8080
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
+CMD ["php", "artisan", "octane:frankenphp", "--port=80", "--host=0.0.0.0", "--caddyfile=/app/Caddyfile"]
