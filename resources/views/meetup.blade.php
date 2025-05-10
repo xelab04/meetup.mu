@@ -89,10 +89,14 @@
                     <div class="mt-10">
                         <div class="inline-block px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-medium text-lg rounded-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50">
                             <button type="submit">
-                                @if (Auth::user()->rsvps()->where('event_id', $meetup->id)->exists())
-                                    Un-RSVP
+                                @if (Auth::user() !== null)
+                                    @if (Auth::user()->rsvps()->where('event_id', $meetup->id)->exists())
+                                        Un-RSVP
+                                    @else
+                                        Register for this event
+                                    @endif
                                 @else
-                                    Register for this event
+                                    RSVP
                                 @endif
                             </button>
                         </div>
