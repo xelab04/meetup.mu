@@ -14,6 +14,11 @@ class RSVPController extends Controller
     {
         $user = Auth::user();
 
+        if ($user == null) {
+            return redirect(route('login') . '?redir=' . $meetup);
+        }
+
+
         $count = RSVP::where('event_id', $meetup)->count();
         $capacity = Meetup::find($meetup)->first()->capacity;
 
