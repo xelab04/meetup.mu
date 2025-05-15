@@ -18,8 +18,6 @@ class MeetupController extends Controller
                 ->get();
         });
 
-        // dd($today);
-
         $meetups = Cache::remember("meetups_home", 600, function () {
             return Meetup::where("date", ">=", Carbon::now())
                 ->orderBy("date", "asc")
