@@ -68,7 +68,7 @@ class MeetupResource extends Resource
             Forms\Components\TextInput::make("registration")
                 ->label('Registration URL')
                 ->maxLength(255)
-                ->disabled(fn ($get) => ! $get('registration_enabled')),
+                ->disabled(fn ($get) => $get('registration_enabled')),
             Forms\Components\TextInput::make("capacity")
                 ->required()
                 ->numeric(),

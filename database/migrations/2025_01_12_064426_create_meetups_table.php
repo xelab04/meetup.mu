@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->text("abstract")->nullable();
             $table->string("location")->nullable();
             // default 100 cause I don't want logic of using value 0/null
-            $table->integer("capacity")->default(50);
+            $table->integer("capacity")->default(50)->nullable();
             $table->text("registration")->nullable();
             $table->dateTime("date");
             $table->timestamps();
