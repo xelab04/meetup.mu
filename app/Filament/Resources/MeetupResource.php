@@ -56,20 +56,24 @@ class MeetupResource extends Resource
                 ->maxLength(255),
             Forms\Components\MarkdownEditor::make("abstract")
                 ->required()
-                ->columnSpan(2)
                 ->maxLength(2000),
             Forms\Components\TextInput::make("location")
                 ->required()
                 ->maxLength(255),
+            Forms\Components\Toggle::make('registration_enabled')
+                ->label('RSVP on Meetup.mu')
+                ->default(true)
+                ->live(),
             Forms\Components\TextInput::make("registration")
-                ->disabled()
-                ->maxLength(255),
+                ->label('Registration URL')
+                ->maxLength(255)
+                ->disabled(fn ($get) => ! $get('registration_enabled')),
             Forms\Components\TextInput::make("capacity")
                 ->required()
                 ->numeric(),
             Forms\Components\DatePicker::make("date")->required(),
             Forms\Components\Select::make("community")
-                ->options($communityOptions)
+                ->options($allCommunities)
                 ->default((!$isSuperAdmin && $user->admin) ? $user->admin : null)
                 ->disabled((!$isSuperAdmin && $user->admin))
                 ->required(),
@@ -81,7 +85,7 @@ class MeetupResource extends Resource
                 ->default("meetup")
                 ->required(),
 
-        ]);
+        ])->columns(1);
     }
 
     public static function table(Table $table): Table
