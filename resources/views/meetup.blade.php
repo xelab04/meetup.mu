@@ -45,6 +45,7 @@
             </div>
 
             <!-- Location Information -->
+            @if ($meetup->location)
             <div class="mb-8">
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">Location</h2>
                 <div class="flex items-start">
@@ -57,6 +58,7 @@
                     </span>
                 </div>
             </div>
+            @endif
 
             <!-- Capacity Information-->
             <div class="mb-8">
