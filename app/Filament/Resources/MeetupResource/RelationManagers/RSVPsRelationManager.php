@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MeetupResource\RelationManagers;
 
 use App\Models\RSVP;
+use Illuminate\Support\Facades\DB;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -21,7 +22,7 @@ class RSVPsRelationManager extends RelationManager
     protected static string $relationship = 'rsvps';
 
     protected static ?string $recordTitleAttribute = 'id';
-    
+
     protected static ?string $title = 'RSVPs';
 
     public function form(Form $form): Form
@@ -42,8 +43,14 @@ class RSVPsRelationManager extends RelationManager
             ->description(function () {
                 $rsvpCount = $this->ownerRecord->rsvps()->count();
                 $attendanceCount = $this->ownerRecord->rsvps()->where('attendance', true)->count();
-                
-                return "Total RSVPs: {$rsvpCount} | Marked as attended: {$attendanceCount}";
+
+                $vegCount = DB::table('r_s_v_p_s')
+                    ->join('users', 'r_s_v_p_s.user_id', '=', 'users.id')
+                    ->where('r_s_v_p_s.event_id', $this->ownerRecord->id)
+                    ->where('users.veg', true)
+                    ->count();
+
+                return "Total RSVPs: {$rsvpCount} | Marked as attended: {$attendanceCount} | Veg: {$vegCount} | This: {$this->ownerRecord->id}";
             })
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')

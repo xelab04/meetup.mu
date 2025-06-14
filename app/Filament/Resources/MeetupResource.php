@@ -63,8 +63,13 @@ class MeetupResource extends Resource
             Forms\Components\Toggle::make('registration_enabled')
                 ->label('RSVP on Meetup.mu')
                 ->default(true)
-                ->live()
-                ->dehydrated(false),
+                ->afterStateHydrated(function (Forms\Components\Toggle $component, $state, $record) {
+                        if ($record && $record->registration === null) {
+                            $component->state(true);
+                        }
+                    })
+                ->live(),
+                // ->dehydrated(false),
             Forms\Components\TextInput::make("registration")
                 ->label('Registration URL')
                 ->maxLength(255)
