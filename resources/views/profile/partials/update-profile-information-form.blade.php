@@ -47,6 +47,12 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="veg" :value="__('Veg')" />
+            <x-toggle-switch id="veg" name="veg" :checked="old('veg', $user->veg)" autofocus required />
+            <x-input-error class="mt-2" :messages="$errors->get('veg')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

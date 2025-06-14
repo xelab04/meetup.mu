@@ -20,7 +20,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
      *
      * @var list<string>
      */
-    protected $fillable = ["name", "firstname", "lastname", "email", "password"];
+    protected $fillable = ["name", "firstname", "lastname", "email", "password", "veg"];
 
     /**
      * The attributes that should be hidden for serialization.
