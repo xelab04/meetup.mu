@@ -40,9 +40,10 @@
                     <ul class="list-disc list-inside">
                         <li>Currently, all components of Meetup.mu are found on my homelab Kubernetes cluster. This includes the scraper, Laravel application, and database.</li>
                         <li>The database is obviously inaccessible to the outside world, and can only be reached from within the Kubernetes cluster (not even from my LAN)</li>
-                        <li>Your data resides in Longhorn, a block storage solution for Kubernetes. It offers encryption at rest. However, I have not enabled this feature yet.</li>
+                        <li>Your data resides in Longhorn, a block storage solution for Kubernetes. It offers encryption at rest. However, I have not enabled this feature*</li>
                         <li>All data is backed up to Wasabi S3 on a daily basis. Please read their docs on security <a class="!text-blue-600 underline" href="https://docs.wasabi.com/v1/docs/how-secure-is-my-data-1">here</a>. I'm the only one with the credentials for Wasabi.</li>
                     </ul>
+                    * This is because this only helps if someone steals the physical disk/node. And if you have that then you can access etcd and decrypt the volume anyway.
                 </div>
 
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Who Can See Your Data</h2>
@@ -50,7 +51,7 @@
                     <ul class="list-disc list-inside">
                         <li>I alone, have access to the entire database. This means I can see your name and email address, as well as the session details.</li>
                         <li>Your name and email address are visible to the admins of the community groups when you RSVP to their meetups. I cannot control how community admins use your data.</li>
-                        <li>As the data is more specifically in Longhorn, on Kubernetes, your data is probably also safe from Mauritius government agents.</li>
+                        <li>As the data is more specifically in Longhorn, on Kubernetes, your data is probably also safe from Mauritius government agents. /j</li>
                     </ul>
                 </div>
 
@@ -60,7 +61,7 @@
                         <li>I do not particularly care about who uses this website.</li>
                         <li>Having a community group present on this platform does not mean that I (or any other contributor) endorses them.</li>
                         <li>I am the only person who can (and will) add or remove community groups on this platform.</li>
-                        <li>I may choose to remove community groups at my own discretion (and with my reasons).</li>
+                        <li>I may choose to remove community groups at my own discretion (and within my reasons).</li>
                     </ul>
                 </div>
 
