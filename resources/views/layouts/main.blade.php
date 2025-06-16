@@ -105,6 +105,9 @@
                 <p class="text-sm md:text-base text-gray-400">
                     v {{ trim(file_get_contents(base_path('version.txt'))) }}
                 </p>
+                <p class="text-sm md:text-base text-gray-400">
+                    <a href="{{ route('privacypolicy') }}">Privacy Policy</a>
+                </p>
             </div>
         </footer>
 
