@@ -29,7 +29,8 @@ class MeetupResource extends Resource
         "laravelmoris" => "LaravelMoris",
         "nugm" => "NUGM",
         "gophersmu" => "Gophers MU",
-        "mobilehorizon" => "Mobile Horizon"
+        "mobilehorizon" => "Mobile Horizon",
+        "pydata" => "PyData MU"
     ];
 
     public static function form(Form $form): Form
