@@ -56,10 +56,10 @@ class MeetupResource extends Resource
                 ->required()
                 ->maxLength(255),
             Forms\Components\MarkdownEditor::make("abstract")
-                ->required()
+                // ->required()
                 ->maxLength(2000),
             Forms\Components\TextInput::make("location")
-                ->required()
+                // ->required()
                 ->maxLength(255),
             Forms\Components\Toggle::make('registration_enabled')
                 ->label('RSVP on Meetup.mu')
@@ -76,7 +76,7 @@ class MeetupResource extends Resource
                 ->maxLength(255)
                 ->disabled(fn ($get) => $get('registration_enabled')),
             Forms\Components\TextInput::make("capacity")
-                ->required()
+                // ->required()
                 ->numeric(),
             Forms\Components\DatePicker::make("date")->required(),
             Forms\Components\Select::make("community")
