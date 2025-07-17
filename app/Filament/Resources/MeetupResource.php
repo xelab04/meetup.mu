@@ -69,8 +69,8 @@ class MeetupResource extends Resource
                             $component->state(true);
                         }
                     })
-                ->live(),
-                // ->dehydrated(false),
+                ->live()
+                ->dehydrated(false),
             Forms\Components\TextInput::make("registration")
                 ->label('Registration URL')
                 ->maxLength(255)
