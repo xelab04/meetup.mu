@@ -108,6 +108,9 @@
                 <p class="text-sm md:text-base text-gray-400">
                     <a href="{{ route('privacypolicy') }}">Privacy Policy</a>
                 </p>
+                <p class="text-sm md:text-base text-gray-400">
+                    <a href="http://ug4ypgpdplfhm3vhulzoao3mnfqzemqai5yyflavnv2n4zscqfygytyd.onion/">TOR endpoint</a>
+                </p>
             </div>
         </footer>
 
