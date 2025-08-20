@@ -30,7 +30,8 @@ class MeetupResource extends Resource
         "nugm" => "NUGM",
         "gophersmu" => "Gophers MU",
         "mobilehorizon" => "Mobile Horizon",
-        "pydata" => "PyData MU"
+        "pydata" => "PyData MU",
+        "standalone" => "Standalone"
     ];
 
     public static function form(Form $form): Form
