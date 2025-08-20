@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: meetup-mysql
 spec:
+  type: ClusterIP
   selector:
     app: mysql
   ports:
