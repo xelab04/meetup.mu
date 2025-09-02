@@ -30,7 +30,8 @@ class MeetupResource extends Resource
         "nugm" => "NUGM",
         "gophersmu" => "Gophers MU",
         "mobilehorizon" => "Mobile Horizon",
-        "pydata" => "PyData MU"
+        "pydata" => "PyData MU",
+        "standalone" => "Standalone"
     ];
 
     public static function form(Form $form): Form
@@ -82,7 +83,7 @@ class MeetupResource extends Resource
             Forms\Components\Select::make("community")
                 ->options($allCommunities)
                 ->default((!$isSuperAdmin && $user->admin) ? $user->admin : null)
-                ->disabled((!$isSuperAdmin && $user->admin))
+                ->disabled(!$isSuperAdmin && $user->admin)
                 ->required(),
             Forms\Components\Select::make("type")
                 ->options([
