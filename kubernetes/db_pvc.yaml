@@ -4,7 +4,7 @@ metadata:
   name: meetups-data
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 4Gi
