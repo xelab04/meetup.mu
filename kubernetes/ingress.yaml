@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: meetups
+spec:
+  rules:
+  - host: meetup.mu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: meetups-svc
+            port:
+              number: 8000
