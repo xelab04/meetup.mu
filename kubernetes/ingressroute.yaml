@@ -12,5 +12,11 @@ spec:
     services:
     - name: meetups-svc
       port: 8000
+
+  - kind: Rule
+    match: Host(`api.meetup.mu`)
+    services:
+    - name: meetup-scraper-api
+      port: 80
   tls:
     certResolver: le
