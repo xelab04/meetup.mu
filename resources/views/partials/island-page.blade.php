@@ -1,0 +1,67 @@
+@php
+    $groupCount = count(\App\Support\Communities::all());
+    // Calendar shows dots for *all* events (past and future) regardless of the
+    // current Upcoming/Past view, and each dot is colored by its community.
+    $eventDots = \App\Models\Meetup::query()
+        ->get(['date', 'community'])
+        ->groupBy(fn($m) => $m->date->format('Y-m-d'))
+        ->map(function ($dayEvents) {
+            return $dayEvents
+                ->map(function ($m) {
+                    $c = \App\Support\Communities::get($m->community);
+                    return ['n' => $c['label'], 'c' => $c['color'], 'cd' => $c['color_dark']];
+                })
+                ->unique('c')
+                ->take(3)
+                ->values()
+                ->all();
+        })
+        ->toArray();
+    $todayIso = now()->toDateString();
+@endphp
+
+{{-- Hero --}}
+<section class="max-w-7xl mx-auto px-5 md:px-10 pt-10 md:pt-14 pb-6 md:pb-9">
+    <h1 class="text-[36px] md:text-[58px] leading-[1] tracking-[-0.045em] font-medium">
+        Mauritius Tech <span class="font-serif italic font-normal text-island-primary dark:text-island-primary-dark">Meetups</span>
+    </h1>
+    <p class="mt-4 md:mt-[18px] text-[14px] md:text-base text-island-muted dark:text-island-muted-dark max-w-[600px] leading-relaxed">
+        All the tech meetups from the many local community groups, in one place!
+    </p>
+</section>
+
+{{-- Main layout --}}
+<section class="max-w-7xl mx-auto px-5 md:px-10 pb-10 grid gap-6 md:gap-10 md:grid-cols-[280px_minmax(0,1fr)] items-start">
+
+    <x-sidebar :tense="$tense"
+               :upcoming-count="$upcomingCount"
+               :past-count="$pastCount"
+               :event-dots="$eventDots"
+               :today-iso="$todayIso" />
+
+    <div>
+        @if ($meetups->isEmpty())
+            <div class="text-center py-16 px-5 bg-island-card dark:bg-island-card-dark border border-dashed border-island-rule dark:border-island-rule-dark rounded-xl">
+                <div class="font-serif italic text-[22px] text-island-fg dark:text-island-fg-dark mb-1.5">Nothing to show.</div>
+                <div class="text-[13px] text-island-muted dark:text-island-muted-dark">
+                    @if ($tense === 'upcoming')
+                        No upcoming events scheduled yet. Check back soon.
+                    @else
+                        No past events on record.
+                    @endif
+                </div>
+            </div>
+        @else
+            <div id="event-grid" class="grid gap-4 md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+                @foreach ($meetups as $meetup)
+                    <x-event-card :meetup="$meetup" />
+                @endforeach
+            </div>
+
+            <div id="event-grid-empty" class="hidden text-center py-16 px-5 bg-island-card dark:bg-island-card-dark border border-dashed border-island-rule dark:border-island-rule-dark rounded-xl">
+                <div class="font-serif italic text-[22px] text-island-fg dark:text-island-fg-dark mb-1.5">Nothing to show.</div>
+                <div class="text-[13px] text-island-muted dark:text-island-muted-dark">Re-enable a group in the sidebar to see events.</div>
+            </div>
+        @endif
+    </div>
+</section>
