@@ -25,7 +25,7 @@ class MeetupFactory extends Factory
             "abstract" => fake()->paragraph(),
             "location" => fake()->company(),
             "registration" => fake()->url(),
-            "date" => fake()->date(),
+            "date" => fake()->dateTimeBetween('-14 months', '+2 months')->format('Y-m-d'),
         ];
     }
 }
