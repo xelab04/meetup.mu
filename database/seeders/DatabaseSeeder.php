@@ -16,7 +16,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         //
-        Meetup::factory(5)->create();
+        Meetup::factory(14)
+            ->state(fn () => ['date' => fake()->dateTimeBetween('-14 months', 'now')->format('Y-m-d')])
+            ->create();
+
+        Meetup::factory(3)
+            ->state(fn () => ['date' => fake()->dateTimeBetween('now', '+2 months')->format('Y-m-d')])
+            ->create();
+
+        Meetup::factory()->create(['date' => now()->format('Y-m-d')]);
 
         User::factory()->create([
             "name" => "Test User",
