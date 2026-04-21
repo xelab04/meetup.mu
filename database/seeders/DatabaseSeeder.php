@@ -26,6 +26,15 @@ class DatabaseSeeder extends Seeder
 
         Meetup::factory()->create(['date' => now()->format('Y-m-d')]);
 
+        // A few events without a registration URL — their title click routes
+        // to the internal /meetup/{id} detail page instead of an external form.
+        Meetup::factory(2)
+            ->state(fn () => [
+                'registration' => null,
+                'date' => fake()->dateTimeBetween('now', '+2 months')->format('Y-m-d'),
+            ])
+            ->create();
+
         User::factory()->create([
             "name" => "Test User",
             "email" => "test@example.com",

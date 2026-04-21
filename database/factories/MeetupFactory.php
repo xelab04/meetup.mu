@@ -19,8 +19,8 @@ class MeetupFactory extends Factory
     public function definition(): array
     {
         return [
-            "type" => fake()->name(),
-            "community" => fake()->name(),
+            "type" => fake()->randomElement(['meetup', 'workshop', 'talk', 'conference']),
+            "community" => fake()->randomElement(array_keys(config('communities.list'))),
             "title" => fake()->text(),
             "abstract" => fake()->paragraph(),
             "location" => fake()->company(),
