@@ -3,8 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta name="description" content="A communal ledger of tech meetups happening around Mauritius." />
         <title>Mauritius Meetups</title>
         <link rel="icon" href="/images/favicon.svg" sizes="any" type="image/svg+xml">
 
@@ -12,133 +11,86 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @else
             <script src="https://cdn.tailwindcss.com"></script>
+            <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+            <style>
+                body { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; background: #f3ebdc; color: #1f1a15; }
+                html.dark body { background: #141613; color: #f2ead8; }
+            </style>
         @endif
 
-        <style>
-            /* Custom styles (if needed) */
-            .hero-section {
-                background-image: url('/images/so-white.png');
-                background-repeat: repeat;
-            }
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 
-            html.dark .hero-section{
-                background-image: url('/images/so-dark.png');
-            }
-        </style>
+        <script>
+            (function () {
+                const stored = localStorage.getItem('theme');
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (!stored && systemDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
     </head>
-    <body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-white">
+    <body class="bg-island-bg text-island-fg dark:bg-island-bg-dark dark:text-island-fg-dark antialiased">
 
-        <!-- Top Gradient Strip -->
-        <div class="h-2 w-full" style="background: linear-gradient(135deg, #EA2839 0%, #151F6D 25%, #FFD500 50%, #00A551 75%, #EA2839 100%);"></div>
-
-        <!-- Theme Switcher Button -->
-        <div class="absolute top-4 right-2">
-            <button id="theme-toggle" class="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none *:w-6 *:h-6">
-                <svg class="dark:hidden block" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M15 2h2v5h-2zm6.688 6.9l3.506-3.506l1.414 1.414l-3.506 3.506zM25 15h5v2h-5zm-3.312 8.1l1.414-1.413l3.506 3.506l-1.414 1.414zM15 25h2v5h-2zm-9.606.192L8.9 21.686l1.414 1.414l-3.505 3.506zM2 15h5v2H2zm3.395-8.192l1.414-1.414L10.315 8.9L8.9 10.314zM16 12a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6"/></svg>
-                <svg class="hidden dark:block" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M29.844 15.035a1.52 1.52 0 0 0-1.23-.866a5.36 5.36 0 0 1-3.41-1.716a6.47 6.47 0 0 1-1.286-6.392a1.6 1.6 0 0 0-.299-1.546a1.45 1.45 0 0 0-1.36-.493l-.019.003a7.93 7.93 0 0 0-6.22 7.431A7.4 7.4 0 0 0 13.5 11a7.55 7.55 0 0 0-7.15 5.244A5.993 5.993 0 0 0 8 28h11a5.977 5.977 0 0 0 5.615-8.088a7.5 7.5 0 0 0 5.132-3.357a1.54 1.54 0 0 0 .097-1.52M19 26H8a3.993 3.993 0 0 1-.673-7.93l.663-.112l.145-.656a5.496 5.496 0 0 1 10.73 0l.145.656l.663.113A3.993 3.993 0 0 1 19 26m4.465-8.001h-.021a5.96 5.96 0 0 0-2.795-1.755a7.5 7.5 0 0 0-2.6-3.677c-.01-.101-.036-.197-.041-.3a6.08 6.08 0 0 1 3.79-6.05a8.46 8.46 0 0 0 1.94 7.596a7.4 7.4 0 0 0 3.902 2.228a5.43 5.43 0 0 1-4.175 1.958"/></svg>
-            </button>
-        </div>
-
-        <div class="absolute top-4 right-20">
-            <a href="https://github.com/xelab04/meetups" target="_blank">
-            <div id="github" class="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none *:w-6 *:h-6">
-                <img src="{{ asset('images/github-mark.svg') }}" class="dark:hidden block" width="32" height="32">
-                <img src="{{ asset('images/github-mark-white.svg') }}" class="hidden dark:block" width="32" height="32">
-            </div>
-            </a>
-        </div>
-
-        <div class="absolute top-4 left-2">
-            <a href="/">
-            <div id="home" class="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none *:w-6 *:h-6">
-                <img src="{{ asset('images/home-light.svg') }}" class="dark:hidden block" width="32" height="32">
-                <img src="{{ asset('images/home-dark.svg') }}" class="hidden dark:block" width="32" height="32">
-            </div>
-            </a>
-        </div>
-
-        <div class="absolute top-4 left-20">
-            <a href="/profile">
-            <div id="profile" class="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none *:w-6 *:h-6">
-                <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32px" height="32px">
-                  <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
-                    <path d="M16 9a4 4 0 1 1-8 0a4 4 0 0 1 8 0m-2 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0" />
-                    <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11s11-4.925 11-11S18.075 1 12 1M3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0 1 12.065 14a8.984 8.984 0 0 1 7.092 3.458A9 9 0 1 0 3 12m9 9a8.963 8.963 0 0 1-5.672-2.012A6.992 6.992 0 0 1 12.065 16a6.991 6.991 0 0 1 5.689 2.92A8.964 8.964 0 0 1 12 21" />
-                  </g>
-                </svg>
-            </div>
-            </a>
-        </div>
-
-        <main class="py-20 hero-section">
-            <!-- Hero Section -->
-            <section class="py-[20vh] px-4 bg-white dark:bg-neutral-800/50 shadow-sm dark:border-t-0 border-t border-t-gray-100 dark:border-t-gray-700">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-5xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight">
-                        Mauritius Tech Meetups
-                    </h1>
-                    <p class="mt-4 text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                        All the tech meetups from the many local community groups, in one place!
-                    </p>
+        {{-- Top bar --}}
+        <header class="sticky top-0 z-20 border-b border-island-rule dark:border-island-rule-dark bg-island-bg/80 dark:bg-island-bg-dark/80 backdrop-blur">
+            <div class="max-w-7xl mx-auto px-5 md:px-10 py-3 md:py-4 flex items-center justify-between">
+                <a href="{{ route('home') }}" class="flex items-center gap-2.5">
+                    <img src="{{ asset('images/favicon.svg') }}" alt="meetup.mu" class="w-8 h-8 shrink-0">
+                    <span class="font-semibold text-base tracking-tight">meetup.mu</span>
+                </a>
+                <div class="flex items-center gap-2 md:gap-3">
+                    <a href="https://github.com/xelab04/meetups" target="_blank" rel="noopener"
+                       class="hidden md:inline-block text-sm text-island-muted dark:text-island-muted-dark hover:text-island-fg dark:hover:text-island-fg-dark px-2 py-1.5 transition-colors">
+                        Submit an event
+                    </a>
+                    @auth
+                        <a href="{{ route('profile.edit') }}"
+                           class="hidden md:inline-block text-sm text-island-muted dark:text-island-muted-dark hover:text-island-fg dark:hover:text-island-fg-dark px-2 py-1.5 transition-colors">
+                            Profile
+                        </a>
+                    @endauth
+                    <button id="theme-toggle" type="button"
+                            class="w-[34px] h-[34px] rounded-full border border-island-rule dark:border-island-rule-dark flex items-center justify-center text-island-fg dark:text-island-fg-dark hover:bg-island-card dark:hover:bg-island-card-dark transition-colors"
+                            aria-label="Toggle theme">
+                        <svg class="hidden dark:block w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                        </svg>
+                        <svg class="block dark:hidden w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
                 </div>
-            </section>
+            </div>
+        </header>
 
-            @yield('nav')
-
-            <!-- Cards Section -->
-            @yield('today')
-
-            <!-- dirty trick for the meetup page itself -->
-            @if(isset($meetups))
-                @foreach($meetups as $meetup)
-                    <x-card :meetup="$meetup" />
-                @endforeach
-            @endif
+        <main>
+            @yield('content')
         </main>
 
-        <!-- Footer -->
-        <footer class="bg-gray-800 dark:bg-neutral-900 text-white py-6">
-            <div class="container mx-auto text-center">
-                <p class="text-sm md:text-base">
-                    Made by the wider Mauritian tech community <3
-                </p>
-                <p class="text-sm md:text-base text-gray-400">
-                    v {{ trim(file_get_contents(base_path('version.txt'))) }}
-                </p>
-                <p class="text-sm md:text-base text-gray-400">
-                    <a href="{{ route('privacypolicy') }}">Privacy Policy</a>
-                </p>
-                <p class="text-sm md:text-base text-gray-400">
-                    <a href="http://ug4ypgpdplfhm3vhulzoao3mnfqzemqai5yyflavnv2n4zscqfygytyd.onion/">TOR endpoint</a>
-                </p>
+        <footer class="mt-16 border-t border-island-rule dark:border-island-rule-dark bg-island-card dark:bg-island-card-dark">
+            <div class="max-w-7xl mx-auto px-5 md:px-10 py-6 flex flex-col md:flex-row justify-between gap-3 text-sm text-island-muted dark:text-island-muted-dark">
+                <div>
+                    Made by the wider Mauritian tech community &lt;3
+                </div>
+                <div class="flex flex-wrap gap-x-5 gap-y-1">
+                    <span>v {{ trim(file_get_contents(base_path('version.txt'))) }}</span>
+                    <a href="{{ route('privacypolicy') }}" class="hover:text-island-fg dark:hover:text-island-fg-dark">Privacy Policy</a>
+                    <a href="http://ug4ypgpdplfhm3vhulzoao3mnfqzemqai5yyflavnv2n4zscqfygytyd.onion/" class="hover:text-island-fg dark:hover:text-island-fg-dark">TOR endpoint</a>
+                </div>
             </div>
         </footer>
 
-        <!-- Theme Switcher Script -->
         <script>
-            // Wait until the DOM is fully loaded before attaching event listeners
             document.addEventListener('DOMContentLoaded', function () {
-                const themeToggleBtn = document.getElementById('theme-toggle');
-                const userTheme = localStorage.getItem("theme");
-                const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-                // Set theme on initial load
-                if (userTheme === "dark" || (!userTheme && systemPrefersDark)) {
-                    document.documentElement.classList.add("dark");
-                } else {
-                    document.documentElement.classList.remove("dark");
-                }
-
-                themeToggleBtn.addEventListener("click", () => {
-                    document.documentElement.classList.toggle("dark");
-                    // Save the preference in localStorage
-                    if (document.documentElement.classList.contains("dark")) {
-                        localStorage.setItem("theme", "dark");
-                    } else {
-                        localStorage.setItem("theme", "light");
-                    }
+                const btn = document.getElementById('theme-toggle');
+                btn?.addEventListener('click', () => {
+                    const dark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', dark ? 'dark' : 'light');
                 });
             });
         </script>
+
+        @stack('scripts')
     </body>
 </html>
