@@ -129,7 +129,7 @@
     {{-- Meta row: day+time, venue, RSVP count --}}
     <div class="mt-auto pt-3 flex items-center flex-wrap gap-2 text-[12px] text-island-muted dark:text-island-muted-dark">
         @if ($isToday)
-            <span class="inline-flex items-center gap-1 px-2 py-[2px] rounded-md text-[11px] font-semibold uppercase tracking-[0.08em] bg-island-primary dark:bg-island-primary-dark text-white">
+            <span class="inline-flex items-center gap-1 px-2 py-[2px] rounded-md text-[11px] font-semibold uppercase tracking-[0.08em] bg-island-today dark:bg-island-today-dark text-white shadow-sm shadow-island-today/30 dark:shadow-island-today-dark/40">
                 <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                 Today
             </span>

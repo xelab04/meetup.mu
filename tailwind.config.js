@@ -34,6 +34,8 @@ export default {
                     'accent-dark': '#4ea890',
                     gold: '#b88a2a',
                     'gold-dark': '#e8c268',
+                    today: '#dc2626',
+                    'today-dark': '#f43f5e',
                 },
             },
         },
