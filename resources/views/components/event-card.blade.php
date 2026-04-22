@@ -54,13 +54,13 @@
              @click.outside="open = false">
             <button type="button"
                     @click="open = !open"
-                    class="block w-[60px] shrink-0 rounded-[10px] overflow-hidden bg-island-bg border border-island-rule hover:border-island-primary transition-colors"
+                    class="block w-[60px] shrink-0 py-2 rounded-[10px] bg-black/[0.03] dark:bg-white/[0.04] border border-island-rule hover:border-island-primary transition-colors"
                     aria-haspopup="menu"
                     :aria-expanded="open">
-                <span class="block text-center text-[10px] uppercase tracking-[0.12em] font-bold py-1 bg-island-rule/60 dark:bg-white/[0.08] text-island-muted">
+                <span class="block text-center text-[10px] uppercase tracking-[0.14em] font-semibold text-island-muted">
                     {{ $monthShort }}
                 </span>
-                <span class="block text-center text-[26px] font-semibold leading-none py-2 text-island-fg tabular-nums">
+                <span class="block text-center text-[24px] font-semibold leading-none mt-[3px] text-island-fg/90 tabular-nums">
                     {{ $day }}
                 </span>
             </button>
