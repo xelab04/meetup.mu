@@ -40,7 +40,7 @@
 @endphp
 
 <article data-event-card data-group="{{ $meetup->community }}"
-         class="group/card relative flex flex-col rounded-2xl p-5 md:p-[22px] overflow-hidden bg-island-card dark:bg-island-card-dark border border-island-rule dark:border-island-rule-dark hover:border-island-fg/50 dark:hover:border-island-fg-dark/50 hover:shadow-md transition-all duration-150">
+         class="group/card relative flex flex-col rounded-2xl p-5 md:p-[22px] overflow-hidden bg-island-card border border-island-rule hover:border-island-fg/50 hover:shadow-md transition-all duration-150">
 
     {{-- Full-card click target (sits below other interactive elements) --}}
     <a href="{{ $titleHref }}" target="{{ $titleTarget }}" @if($titleRel) rel="{{ $titleRel }}" @endif
@@ -54,29 +54,29 @@
              @click.outside="open = false">
             <button type="button"
                     @click="open = !open"
-                    class="block w-[60px] shrink-0 rounded-[10px] overflow-hidden bg-island-bg dark:bg-island-bg-dark border border-island-rule dark:border-island-rule-dark hover:border-island-primary dark:hover:border-island-primary-dark transition-colors"
+                    class="block w-[60px] shrink-0 rounded-[10px] overflow-hidden bg-island-bg border border-island-rule hover:border-island-primary transition-colors"
                     aria-haspopup="menu"
                     :aria-expanded="open">
-                <span class="block text-center text-[10px] uppercase tracking-[0.12em] font-bold py-1 bg-island-rule/60 dark:bg-white/[0.08] text-island-muted dark:text-island-fg-dark/75">
+                <span class="block text-center text-[10px] uppercase tracking-[0.12em] font-bold py-1 bg-island-rule/60 dark:bg-white/[0.08] text-island-muted">
                     {{ $monthShort }}
                 </span>
-                <span class="block text-center text-[26px] font-semibold leading-none py-2 text-island-fg dark:text-island-fg-dark tabular-nums">
+                <span class="block text-center text-[26px] font-semibold leading-none py-2 text-island-fg tabular-nums">
                     {{ $day }}
                 </span>
             </button>
 
             {{-- Tooltip --}}
             <div x-show="!open"
-                 class="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-1.5 opacity-0 group-hover/date:opacity-100 transition-opacity z-10 bg-island-fg dark:bg-island-fg-dark text-island-bg dark:text-island-bg-dark text-[11px] font-medium px-2 py-1 rounded-md whitespace-nowrap">
+                 class="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-1.5 opacity-0 group-hover/date:opacity-100 transition-opacity z-10 bg-island-fg text-island-bg text-[11px] font-medium px-2 py-1 rounded-md whitespace-nowrap">
                 Add to Calendar
             </div>
 
             {{-- Calendar dropdown --}}
             <div x-show="open" x-cloak x-transition.opacity
-                 class="absolute top-full left-0 mt-1.5 w-44 bg-island-bg dark:bg-island-bg-dark border border-island-rule dark:border-island-rule-dark rounded-[10px] shadow-lg p-1 z-20">
+                 class="absolute top-full left-0 mt-1.5 w-44 bg-island-bg border border-island-rule rounded-[10px] shadow-lg p-1 z-20">
                 <a href="{{ $googleUrl }}" target="_blank" rel="noopener"
                    @click="open = false"
-                   class="block px-3 py-2 text-[13px] rounded-md text-island-fg dark:text-island-fg-dark hover:bg-island-card dark:hover:bg-island-card-dark">Google Calendar</a>
+                   class="block px-3 py-2 text-[13px] rounded-md text-island-fg hover:bg-island-card">Google Calendar</a>
                 <button type="button"
                         @click="downloadIcs(); open = false"
                         data-ics-title="{{ $calTitle }}"
@@ -84,12 +84,12 @@
                         data-ics-end="{{ $icsEnd }}"
                         data-ics-loc="{{ $calLoc }}"
                         data-ics-desc="{{ $calDesc }}"
-                        class="block w-full text-left px-3 py-2 text-[13px] rounded-md text-island-fg dark:text-island-fg-dark hover:bg-island-card dark:hover:bg-island-card-dark">
+                        class="block w-full text-left px-3 py-2 text-[13px] rounded-md text-island-fg hover:bg-island-card">
                     Apple Calendar
                 </button>
                 <a href="{{ $outlookUrl }}" target="_blank" rel="noopener"
                    @click="open = false"
-                   class="block px-3 py-2 text-[13px] rounded-md text-island-fg dark:text-island-fg-dark hover:bg-island-card dark:hover:bg-island-card-dark">Outlook</a>
+                   class="block px-3 py-2 text-[13px] rounded-md text-island-fg hover:bg-island-card">Outlook</a>
                 <button type="button"
                         @click="downloadIcs(); open = false"
                         data-ics-title="{{ $calTitle }}"
@@ -97,7 +97,7 @@
                         data-ics-end="{{ $icsEnd }}"
                         data-ics-loc="{{ $calLoc }}"
                         data-ics-desc="{{ $calDesc }}"
-                        class="block w-full text-left px-3 py-2 text-[13px] rounded-md text-island-fg dark:text-island-fg-dark hover:bg-island-card dark:hover:bg-island-card-dark">
+                        class="block w-full text-left px-3 py-2 text-[13px] rounded-md text-island-fg hover:bg-island-card">
                     Download .ics
                 </button>
             </div>
@@ -105,7 +105,7 @@
 
         {{-- Community mono + label (top-right) --}}
         <a href="{{ route('community', $meetup->community) }}"
-           class="relative z-10 flex-1 min-w-0 flex items-center justify-end gap-2 no-underline text-island-fg dark:text-island-fg-dark hover:opacity-80 transition-opacity">
+           class="relative z-10 flex-1 min-w-0 flex items-center justify-end gap-2 no-underline text-island-fg hover:opacity-80 transition-opacity">
             <span class="text-[13px] font-semibold truncate text-right">{{ $community['label'] }}</span>
             <span class="w-[22px] h-[22px] shrink-0 rounded-[5px] flex items-center justify-center text-white text-[10px] font-bold tracking-wide"
                   style="background: {{ $color }};">
@@ -115,21 +115,21 @@
     </div>
 
     {{-- Title --}}
-    <h3 class="text-[18px] font-semibold tracking-tight leading-tight mb-2 text-island-fg dark:text-island-fg-dark">
+    <h3 class="text-[18px] font-semibold tracking-tight leading-tight mb-2 text-island-fg">
         {{ $meetup->title }}
     </h3>
 
     {{-- Blurb --}}
     @if ($blurb)
-        <p class="font-serif italic text-[15px] text-island-muted dark:text-island-muted-dark leading-relaxed mb-3.5">
+        <p class="font-serif italic text-[15px] text-island-muted leading-relaxed mb-3.5">
             &ldquo;{{ $blurb }}&rdquo;
         </p>
     @endif
 
     {{-- Meta row: day+time, venue, RSVP count --}}
-    <div class="mt-auto pt-3 flex items-center flex-wrap gap-2 text-[12px] text-island-muted dark:text-island-muted-dark">
+    <div class="mt-auto pt-3 flex items-center flex-wrap gap-2 text-[12px] text-island-muted">
         @if ($isToday)
-            <span class="inline-flex items-center gap-1 px-2 py-[2px] rounded-md text-[11px] font-semibold uppercase tracking-[0.08em] bg-island-today dark:bg-island-today-dark text-white shadow-sm shadow-island-today/30 dark:shadow-island-today-dark/40">
+            <span class="inline-flex items-center gap-1 px-2 py-[2px] rounded-md text-[11px] font-semibold uppercase tracking-[0.08em] bg-island-today text-white shadow-sm shadow-island-today/30">
                 <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                 Today
             </span>

@@ -3,15 +3,15 @@
 @section('content')
 <section class="max-w-4xl mx-auto px-5 md:px-10 pt-10 md:pt-14 pb-16">
     @if (session('message'))
-        <div class="mb-6 rounded-xl border border-island-primary/40 dark:border-island-primary-dark/40 bg-island-primary/5 dark:bg-island-primary-dark/10 px-4 py-3 text-island-primary dark:text-island-primary-dark text-sm text-center font-medium">
+        <div class="mb-6 rounded-xl border border-island-primary/40 bg-island-primary/5 px-4 py-3 text-island-primary text-sm text-center font-medium">
             {{ session('message') }}
         </div>
     @endif
-    <div class="bg-island-card dark:bg-island-card-dark border border-island-rule dark:border-island-rule-dark rounded-2xl p-6 md:p-10">
-        <h1 class="text-3xl md:text-4xl font-semibold tracking-tight text-island-fg dark:text-island-fg-dark mb-4">
+    <div class="bg-island-card border border-island-rule rounded-2xl p-6 md:p-10">
+        <h1 class="text-3xl md:text-4xl font-semibold tracking-tight text-island-fg mb-4">
             Privacy Policy and EULA
         </h1>
-        <div class="prose dark:prose-invert max-w-none text-island-fg dark:text-island-fg-dark mb-6">
+        <div class="prose dark:prose-invert max-w-none text-island-fg mb-6">
                 This should give you an idea of what I will do with your data. I am not a lawyer, and I am too poor to get a legal team. This is obviously not legal advice and users should consult with an attorney for their specific needs though, it is my opinion that if you need to consult with an attorney, you're better off not using meetup.mu.'
             </div>
 

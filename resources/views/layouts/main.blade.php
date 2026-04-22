@@ -13,8 +13,8 @@
             <script src="https://cdn.tailwindcss.com"></script>
             <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
             <style>
-                body { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; background: #f3ebdc; color: #1f1a15; }
-                html.dark body { background: #141613; color: #f2ead8; }
+                body { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; background: #eef2f7; color: #111827; }
+                html.dark body { background: #0f1419; color: #e5ecf4; }
             </style>
         @endif
 
@@ -30,10 +30,10 @@
             })();
         </script>
     </head>
-    <body class="bg-island-bg text-island-fg dark:bg-island-bg-dark dark:text-island-fg-dark antialiased">
+    <body class="bg-island-bg text-island-fg antialiased">
 
         {{-- Top bar --}}
-        <header class="sticky top-0 z-20 border-b border-island-rule dark:border-island-rule-dark bg-island-bg/80 dark:bg-island-bg-dark/80 backdrop-blur">
+        <header class="sticky top-0 z-20 border-b border-island-rule bg-island-bg/80 backdrop-blur">
             <div class="max-w-7xl mx-auto px-5 md:px-10 py-3 md:py-4 flex items-center justify-between">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5">
                     <img src="{{ asset('images/favicon.svg') }}" alt="meetup.mu" class="w-8 h-8 shrink-0">
@@ -41,7 +41,7 @@
                 </a>
                 <div class="flex items-center gap-2 md:gap-3">
                     <a href="https://github.com/xelab04/meetups" target="_blank" rel="noopener"
-                       class="w-[34px] h-[34px] rounded-full border border-island-rule dark:border-island-rule-dark flex items-center justify-center text-island-fg dark:text-island-fg-dark hover:bg-island-card dark:hover:bg-island-card-dark transition-colors"
+                       class="w-[34px] h-[34px] rounded-full border border-island-rule flex items-center justify-center text-island-fg hover:bg-island-card transition-colors"
                        aria-label="Submit an event on GitHub"
                        title="Submit an event on GitHub">
                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
@@ -50,12 +50,12 @@
                     </a>
                     @auth
                         <a href="{{ route('profile.edit') }}"
-                           class="hidden md:inline-block text-sm text-island-muted dark:text-island-muted-dark hover:text-island-fg dark:hover:text-island-fg-dark px-2 py-1.5 transition-colors">
+                           class="hidden md:inline-block text-sm text-island-muted hover:text-island-fg px-2 py-1.5 transition-colors">
                             Profile
                         </a>
                     @endauth
                     <button id="theme-toggle" type="button"
-                            class="w-[34px] h-[34px] rounded-full border border-island-rule dark:border-island-rule-dark flex items-center justify-center text-island-fg dark:text-island-fg-dark hover:bg-island-card dark:hover:bg-island-card-dark transition-colors"
+                            class="w-[34px] h-[34px] rounded-full border border-island-rule flex items-center justify-center text-island-fg hover:bg-island-card transition-colors"
                             aria-label="Toggle theme">
                         <svg class="hidden dark:block w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
@@ -72,15 +72,15 @@
             @yield('content')
         </main>
 
-        <footer class="mt-16 border-t border-island-rule dark:border-island-rule-dark bg-island-card dark:bg-island-card-dark">
-            <div class="max-w-7xl mx-auto px-5 md:px-10 py-6 flex flex-col md:flex-row justify-between gap-3 text-sm text-island-muted dark:text-island-muted-dark">
+        <footer class="mt-16 border-t border-island-rule bg-island-card">
+            <div class="max-w-7xl mx-auto px-5 md:px-10 py-6 flex flex-col md:flex-row justify-between gap-3 text-sm text-island-muted">
                 <div>
                     Made by the wider Mauritian tech community &lt;3
                 </div>
                 <div class="flex flex-wrap gap-x-5 gap-y-1">
                     <span>v {{ trim(file_get_contents(base_path('version.txt'))) }}</span>
-                    <a href="{{ route('privacypolicy') }}" class="hover:text-island-fg dark:hover:text-island-fg-dark">Privacy Policy</a>
-                    <a href="http://ug4ypgpdplfhm3vhulzoao3mnfqzemqai5yyflavnv2n4zscqfygytyd.onion/" class="hover:text-island-fg dark:hover:text-island-fg-dark">TOR endpoint</a>
+                    <a href="{{ route('privacypolicy') }}" class="hover:text-island-fg">Privacy Policy</a>
+                    <a href="http://ug4ypgpdplfhm3vhulzoao3mnfqzemqai5yyflavnv2n4zscqfygytyd.onion/" class="hover:text-island-fg">TOR endpoint</a>
                 </div>
             </div>
         </footer>

@@ -23,9 +23,9 @@
 {{-- Hero --}}
 <section class="max-w-7xl mx-auto px-5 md:px-10 pt-10 md:pt-14 pb-6 md:pb-9">
     <h1 class="text-[36px] md:text-[58px] leading-[1] tracking-[-0.045em] font-medium">
-        Mauritius Tech <span class="font-serif italic font-normal text-island-primary dark:text-island-primary-dark">Meetups</span>
+        Mauritius Tech <span class="font-serif italic font-normal text-island-primary">Meetups</span>
     </h1>
-    <p class="mt-4 md:mt-[18px] text-[14px] md:text-base text-island-muted dark:text-island-muted-dark max-w-[600px] leading-relaxed">
+    <p class="mt-4 md:mt-[18px] text-[14px] md:text-base text-island-muted max-w-[600px] leading-relaxed">
         All the tech meetups from the many local community groups, in one place!
     </p>
 </section>
@@ -41,9 +41,9 @@
 
     <div>
         @if ($meetups->isEmpty())
-            <div class="text-center py-16 px-5 bg-island-card dark:bg-island-card-dark border border-dashed border-island-rule dark:border-island-rule-dark rounded-xl">
-                <div class="font-serif italic text-[22px] text-island-fg dark:text-island-fg-dark mb-1.5">Nothing to show.</div>
-                <div class="text-[13px] text-island-muted dark:text-island-muted-dark">
+            <div class="text-center py-16 px-5 bg-island-card border border-dashed border-island-rule rounded-xl">
+                <div class="font-serif italic text-[22px] text-island-fg mb-1.5">Nothing to show.</div>
+                <div class="text-[13px] text-island-muted">
                     @if ($tense === 'upcoming')
                         No upcoming events scheduled yet. Check back soon.
                     @else
@@ -58,9 +58,9 @@
                 @endforeach
             </div>
 
-            <div id="event-grid-empty" class="hidden text-center py-16 px-5 bg-island-card dark:bg-island-card-dark border border-dashed border-island-rule dark:border-island-rule-dark rounded-xl">
-                <div class="font-serif italic text-[22px] text-island-fg dark:text-island-fg-dark mb-1.5">Nothing to show.</div>
-                <div class="text-[13px] text-island-muted dark:text-island-muted-dark">Re-enable a group in the sidebar to see events.</div>
+            <div id="event-grid-empty" class="hidden text-center py-16 px-5 bg-island-card border border-dashed border-island-rule rounded-xl">
+                <div class="font-serif italic text-[22px] text-island-fg mb-1.5">Nothing to show.</div>
+                <div class="text-[13px] text-island-muted">Re-enable a group in the sidebar to see events.</div>
             </div>
         @endif
     </div>
