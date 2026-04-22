@@ -26,9 +26,11 @@ class DatabaseSeeder extends Seeder
 
         Meetup::factory()->create(['date' => now()->format('Y-m-d')]);
 
-        User::factory()->create([
-            "name" => "Test User",
-            "email" => "test@example.com",
-        ]);
+        if (! User::where("email", "test@example.com")->exists()) {
+            User::factory()->create([
+                "name" => "Test User",
+                "email" => "test@example.com",
+            ]);
+        }
     }
 }
