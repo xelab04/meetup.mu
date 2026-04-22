@@ -15,6 +15,7 @@ export default {
             fontFamily: {
                 sans: ['"Space Grotesk"', ...defaultTheme.fontFamily.sans],
                 serif: ['"Instrument Serif"', ...defaultTheme.fontFamily.serif],
+                mono: ['"Space Mono"', ...defaultTheme.fontFamily.mono],
             },
             colors: {
                 island: {

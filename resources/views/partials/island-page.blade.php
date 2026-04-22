@@ -23,7 +23,7 @@
 {{-- Hero --}}
 <section class="max-w-7xl mx-auto px-5 md:px-10 pt-10 md:pt-14 pb-6 md:pb-9">
     <h1 class="text-[36px] md:text-[58px] leading-[1] tracking-[-0.045em] font-medium">
-        Mauritius Tech <span class="font-serif italic font-normal text-island-primary">Meetups</span>
+        Mauritius Tech <span class="font-mono font-normal tracking-[-0.02em] text-island-primary">Meetups</span>
     </h1>
     <p class="mt-4 md:mt-[18px] text-[14px] md:text-base text-island-muted max-w-[600px] leading-relaxed">
         All the tech meetups from the many local community groups, in one place!
