@@ -27,6 +27,21 @@ class MeetupController extends Controller
         return view("index", compact("meetups", "todays"));
     }
 
+    public function calendar(Request $request)
+    {
+        $year = (int) ($request->query('y') ?? Carbon::now()->year);
+        $start = Carbon::create($year, 1, 1)->startOfDay();
+        $end = Carbon::create($year, 12, 31)->endOfDay();
+
+        $meetups = Cache::remember("meetups_year_{$year}", 600, function () use ($start, $end) {
+            return Meetup::whereBetween('date', [$start, $end])
+                ->orderBy('date', 'asc')
+                ->get();
+        });
+
+        return view('calendar', compact('meetups', 'year'));
+    }
+
     public function past()
     {
         // $meetups = Meetup::orderBy("date", "asc")->get();

@@ -85,6 +85,10 @@
                 </div>
             </template>
         </div>
+        <a href="{{ route('calendar') }}"
+           class="mt-3 pt-3 block border-t border-dashed border-island-rule text-[12px] text-island-muted hover:text-island-fg text-center">
+            Open full calendar →
+        </a>
     </div>
 
     {{-- Group filter --}}

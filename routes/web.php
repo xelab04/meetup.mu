@@ -10,6 +10,8 @@ Route::get("/", [MeetupController::class, "home"])->name("home");
 
 Route::get("/past", [MeetupController::class, "past"])->name("past");
 
+Route::get("/calendar", [MeetupController::class, "calendar"])->name("calendar");
+
 Route::get('/privacypolicy', function () {
     return view('privacypolicy');
 })->name('privacypolicy');
