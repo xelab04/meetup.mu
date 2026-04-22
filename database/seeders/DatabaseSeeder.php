@@ -20,18 +20,19 @@ class DatabaseSeeder extends Seeder
             ->state(fn () => ['date' => fake()->dateTimeBetween('-14 months', 'now')->format('Y-m-d')])
             ->create();
 
-        Meetup::factory(3)
-            ->state(fn () => ['date' => fake()->dateTimeBetween('now', '+2 months')->format('Y-m-d')])
+        Meetup::factory(9)
+            ->state(fn () => ['date' => fake()->dateTimeBetween('now', '+8 months')->format('Y-m-d')])
             ->create();
 
         Meetup::factory()->create(['date' => now()->format('Y-m-d')]);
 
-        // A few events without a registration URL — their title click routes
-        // to the internal /meetup/{id} detail page instead of an external form.
-        Meetup::factory(2)
+        // A few upcoming events without a registration URL — their title click
+        // routes to the internal /meetup/{id} detail page instead of an
+        // external form.
+        Meetup::factory(3)
             ->state(fn () => [
                 'registration' => null,
-                'date' => fake()->dateTimeBetween('now', '+2 months')->format('Y-m-d'),
+                'date' => fake()->dateTimeBetween('now', '+8 months')->format('Y-m-d'),
             ])
             ->create();
 
