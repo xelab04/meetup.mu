@@ -142,8 +142,30 @@
         URL.revokeObjectURL(url);
     };
 
+    function huePicker() {
+        return {
+            open: false,
+            hue: parseInt(localStorage.getItem('hue') ?? '240', 10),
+            presets: [
+                { h: 240, label: 'Denim' },
+                { h: 200, label: 'Sky' },
+                { h: 170, label: 'Teal' },
+                { h: 130, label: 'Moss' },
+                { h: 60,  label: 'Sand' },
+                { h: 20,  label: 'Terra' },
+                { h: 330, label: 'Rose' },
+                { h: 290, label: 'Violet' },
+            ],
+            apply() {
+                document.documentElement.style.setProperty('--hue', this.hue);
+                localStorage.setItem('hue', this.hue);
+            },
+        };
+    }
+
     document.addEventListener('alpine:init', () => {
         Alpine.data('islandCalendar', islandCalendar);
         Alpine.data('islandGroupFilter', islandGroupFilter);
+        Alpine.data('huePicker', huePicker);
     });
 </script>
