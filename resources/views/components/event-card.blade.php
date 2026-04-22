@@ -145,9 +145,9 @@
             <path d="M6 0C3.8 0 2 1.8 2 4c0 3 4 8 4 8s4-5 4-8c0-2.2-1.8-4-4-4zm0 5.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
         </svg>
         <span class="truncate max-w-[220px]">{{ $venue }}</span>
-        @if ($meetup->rsvp_count > 0)
+        @if ($meetup->rsvps_count > 0)
             <span class="opacity-50">·</span>
-            <span>{{ $meetup->rsvp_count }} going</span>
+            <span>{{ $meetup->rsvps_count }} going</span>
         @endif
     </div>
 

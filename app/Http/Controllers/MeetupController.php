@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Meetup;
-use App\Models\RSVP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
@@ -13,13 +12,15 @@ class MeetupController extends Controller
     public function home()
     {
         $todays = Cache::remember("meetups_today", 600, function () {
-            return Meetup::whereDate('date', '=', Carbon::today())
+            return Meetup::withCount('rsvps')
+                ->whereDate('date', '=', Carbon::today())
                 ->orderBy('date', 'asc')
                 ->get();
         });
 
         $meetups = Cache::remember("meetups_home", 600, function () {
-            return Meetup::where("date", ">=", Carbon::now())
+            return Meetup::withCount('rsvps')
+                ->where("date", ">=", Carbon::now())
                 ->orderBy("date", "asc")
                 ->get();
         });
@@ -34,7 +35,8 @@ class MeetupController extends Controller
         $end = Carbon::create($year, 12, 31)->endOfDay();
 
         $meetups = Cache::remember("meetups_year_{$year}", 600, function () use ($start, $end) {
-            return Meetup::whereBetween('date', [$start, $end])
+            return Meetup::withCount('rsvps')
+                ->whereBetween('date', [$start, $end])
                 ->orderBy('date', 'asc')
                 ->get();
         });
@@ -44,9 +46,9 @@ class MeetupController extends Controller
 
     public function past()
     {
-        // $meetups = Meetup::orderBy("date", "asc")->get();
         $meetups = Cache::remember("meetups_past", 600, function () {
-            return Meetup::where("date", "<=", Carbon::now())
+            return Meetup::withCount('rsvps')
+                ->where("date", "<=", Carbon::now())
                 ->orderBy("date", "desc")
                 ->get();
         });
@@ -59,7 +61,8 @@ class MeetupController extends Controller
         $meetups = Cache::remember("community_{$community}", 600, function () use (
             $community
         ) {
-            return Meetup::where("community", $community)
+            return Meetup::withCount('rsvps')
+                ->where("community", $community)
                 ->where("date", ">=", Carbon::today())
                 ->orderBy("date", "asc")
                 ->get();
@@ -73,7 +76,8 @@ class MeetupController extends Controller
         $meetups = Cache::remember("meetups_past_{$community}", 600, function () use (
             $community
         ) {
-            return Meetup::where("community", $community)
+            return Meetup::withCount('rsvps')
+                ->where("community", $community)
                 ->where("date", "<=", Carbon::now())
                 ->orderBy("date", "desc")
                 ->get();
@@ -84,11 +88,9 @@ class MeetupController extends Controller
 
     public function meetup($meetup)
     {
-        $meetup = Meetup::where("id", $meetup)->firstOrFail();
-        $rsvpCount = RSVP::where("event_id", $meetup->id)->count();
-        // dd($rsvpCount);
-        // $message = null;
-        return view("meetup", compact("meetup", "rsvpCount"));
+        $meetup = Meetup::withCount('rsvps')->findOrFail($meetup);
+
+        return view("meetup", compact("meetup"));
     }
 
     /**

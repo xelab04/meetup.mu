@@ -6,8 +6,8 @@
         $color = $community['color'];
         $monthShort = strtoupper($meetup->date->format('M'));
         $day = $meetup->date->format('j');
-        $seatsLeft = max(0, ($meetup->capacity ?? 0) - $rsvpCount);
-        $isFull = $meetup->capacity && $rsvpCount >= $meetup->capacity;
+        $seatsLeft = max(0, ($meetup->capacity ?? 0) - $meetup->rsvps_count);
+        $isFull = $meetup->capacity && $meetup->rsvps_count >= $meetup->capacity;
     @endphp
 
     <section class="max-w-4xl mx-auto px-5 md:px-10 pt-10 md:pt-14 pb-16">
@@ -75,7 +75,7 @@
                 <div class="mb-8">
                     <h2 class="text-[11px] uppercase tracking-[0.12em] text-island-muted font-semibold mb-2">Capacity</h2>
                     <div class="text-island-fg">
-                        {{ $rsvpCount }} / {{ $meetup->capacity }}
+                        {{ $meetup->rsvps_count }} / {{ $meetup->capacity }}
                         @if (!$isFull)
                             <span class="text-island-muted text-sm">— {{ $seatsLeft }} seats left</span>
                         @endif
