@@ -40,7 +40,7 @@
 @endphp
 
 <article data-event-card data-group="{{ $meetup->community }}"
-         class="group/card relative flex flex-col rounded-2xl p-5 md:p-[22px] overflow-hidden bg-island-card border border-island-rule hover:border-island-fg/50 hover:shadow-md transition-all duration-150">
+         class="group/card relative flex flex-col rounded-2xl p-5 md:p-[22px] overflow-hidden bg-island-card border border-island-rule shadow-sm shadow-black/[0.04] dark:shadow-black/[0.25] hover:shadow-xl hover:shadow-black/[0.1] dark:hover:shadow-black/[0.55] hover:-translate-y-[2px] transition-[transform,box-shadow] duration-200 ease-out">
 
     {{-- Full-card click target (sits below other interactive elements) --}}
     <a href="{{ $titleHref }}" target="{{ $titleTarget }}" @if($titleRel) rel="{{ $titleRel }}" @endif
