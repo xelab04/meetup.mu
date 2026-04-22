@@ -28,11 +28,6 @@
 @endphp
 
 @section('content')
-<style>
-    .cal-dot { background: var(--dot-c); }
-    html.dark .cal-dot { background: var(--dot-cd); }
-</style>
-
 {{-- Hero --}}
 <section class="max-w-7xl mx-auto px-5 md:px-10 pt-10 md:pt-14 pb-6 md:pb-9">
     <div class="flex flex-wrap items-center gap-x-6 gap-y-3">

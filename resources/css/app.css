@@ -47,6 +47,12 @@ html.dark {
     }
 }
 
+/* Calendar-day dots — fed per-element via `--dot-c` / `--dot-cd`
+   inline style, so the dot picks up its community color in both
+   light and dark modes. */
+.cal-dot { background: var(--dot-c); }
+html.dark .cal-dot { background: var(--dot-cd); }
+
 .hue-slider {
     -webkit-appearance: none;
     appearance: none;

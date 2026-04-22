@@ -5,11 +5,6 @@
     $eventDotsJson = json_encode((object) $eventDots);
 @endphp
 
-<style>
-    .cal-dot { background: var(--dot-c); }
-    html.dark .cal-dot { background: var(--dot-cd); }
-</style>
-
 <aside class="md:sticky md:top-24 space-y-4 self-start">
 
     {{-- Upcoming / Past toggle --}}
