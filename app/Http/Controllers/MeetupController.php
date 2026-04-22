@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Meetup;
+use App\Support\Communities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
@@ -11,21 +12,52 @@ class MeetupController extends Controller
 {
     public function home()
     {
-        $todays = Cache::remember("meetups_today", 600, function () {
-            return Meetup::withCount('rsvps')
-                ->whereDate('date', '=', Carbon::today())
-                ->orderBy('date', 'asc')
-                ->get();
-        });
-
         $meetups = Cache::remember("meetups_home", 600, function () {
             return Meetup::withCount('rsvps')
-                ->where("date", ">=", Carbon::now())
+                ->where("date", ">=", Carbon::today())
                 ->orderBy("date", "asc")
                 ->get();
         });
 
-        return view("index", compact("meetups", "todays"));
+        return $this->renderList('upcoming', $meetups);
+    }
+
+    public function past()
+    {
+        $meetups = Cache::remember("meetups_past", 600, function () {
+            return Meetup::withCount('rsvps')
+                ->where("date", "<", Carbon::today())
+                ->orderBy("date", "desc")
+                ->get();
+        });
+
+        return $this->renderList('past', $meetups);
+    }
+
+    public function community($community)
+    {
+        $meetups = Cache::remember("community_{$community}", 600, function () use ($community) {
+            return Meetup::withCount('rsvps')
+                ->where("community", $community)
+                ->where("date", ">=", Carbon::today())
+                ->orderBy("date", "asc")
+                ->get();
+        });
+
+        return $this->renderList('upcoming', $meetups, $community);
+    }
+
+    public function past_community($community)
+    {
+        $meetups = Cache::remember("meetups_past_{$community}", 600, function () use ($community) {
+            return Meetup::withCount('rsvps')
+                ->where("community", $community)
+                ->where("date", "<", Carbon::today())
+                ->orderBy("date", "desc")
+                ->get();
+        });
+
+        return $this->renderList('past', $meetups, $community);
     }
 
     public function calendar(Request $request)
@@ -44,48 +76,6 @@ class MeetupController extends Controller
         return view('calendar', compact('meetups', 'year'));
     }
 
-    public function past()
-    {
-        $meetups = Cache::remember("meetups_past", 600, function () {
-            return Meetup::withCount('rsvps')
-                ->where("date", "<=", Carbon::now())
-                ->orderBy("date", "desc")
-                ->get();
-        });
-
-        return view("past", compact("meetups"));
-    }
-
-    public function community($community)
-    {
-        $meetups = Cache::remember("community_{$community}", 600, function () use (
-            $community
-        ) {
-            return Meetup::withCount('rsvps')
-                ->where("community", $community)
-                ->where("date", ">=", Carbon::today())
-                ->orderBy("date", "asc")
-                ->get();
-        });
-
-        return view("community", compact("meetups", "community"));
-    }
-
-    public function past_community($community)
-    {
-        $meetups = Cache::remember("meetups_past_{$community}", 600, function () use (
-            $community
-        ) {
-            return Meetup::withCount('rsvps')
-                ->where("community", $community)
-                ->where("date", "<=", Carbon::now())
-                ->orderBy("date", "desc")
-                ->get();
-        });
-
-        return view("past-community", compact("meetups", "community"));
-    }
-
     public function meetup($meetup)
     {
         $meetup = Meetup::withCount('rsvps')->findOrFail($meetup);
@@ -93,59 +83,68 @@ class MeetupController extends Controller
         return view("meetup", compact("meetup"));
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected function renderList(string $tense, $meetups, ?string $community = null)
     {
-        //
+        [$upcomingCount, $pastCount] = $this->counts($community);
+
+        return view('meetup-list', [
+            'meetups' => $meetups,
+            'tense' => $tense,
+            'upcomingCount' => $upcomingCount,
+            'pastCount' => $pastCount,
+            'eventDots' => $this->eventDots(),
+            'todayIso' => Carbon::today()->toDateString(),
+            'community' => $community,
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Per-community (or global) upcoming/past counts for the sidebar toggle.
      */
-    public function create()
+    protected function counts(?string $community = null): array
     {
-        //
+        $key = $community ? "counts_community_{$community}" : 'counts';
+
+        return Cache::remember($key, 600, function () use ($community) {
+            $base = Meetup::query();
+            if ($community) {
+                $base->where('community', $community);
+            }
+            $today = Carbon::today();
+
+            return [
+                (clone $base)->where('date', '>=', $today)->count(),
+                (clone $base)->where('date', '<', $today)->count(),
+            ];
+        });
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Map of YYYY-MM-DD → up-to-three community dots, used by the sidebar
+     * mini-calendar and the full-year calendar page. Bounded to ±1 year so
+     * the payload stays small even as the dataset grows.
      */
-    public function store(Request $request)
+    protected function eventDots(): array
     {
-        //
-    }
+        return Cache::remember('event_dots', 600, function () {
+            $start = Carbon::now()->subYear();
+            $end = Carbon::now()->addYear();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Meetup $meetup)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Meetup $meetup)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Meetup $meetup)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Meetup $meetup)
-    {
-        //
+            return Meetup::whereBetween('date', [$start, $end])
+                ->get(['date', 'community'])
+                ->groupBy(fn ($m) => $m->date->format('Y-m-d'))
+                ->map(function ($dayEvents) {
+                    return $dayEvents
+                        ->map(function ($m) {
+                            $c = Communities::get($m->community);
+                            return ['n' => $c['label'], 'c' => $c['color'], 'cd' => $c['color_dark']];
+                        })
+                        ->unique('c')
+                        ->take(3)
+                        ->values()
+                        ->all();
+                })
+                ->toArray();
+        });
     }
 }

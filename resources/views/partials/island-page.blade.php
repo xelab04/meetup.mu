@@ -1,25 +1,3 @@
-@php
-    $groupCount = count(\App\Support\Communities::all());
-    // Calendar shows dots for *all* events (past and future) regardless of the
-    // current Upcoming/Past view, and each dot is colored by its community.
-    $eventDots = \App\Models\Meetup::query()
-        ->get(['date', 'community'])
-        ->groupBy(fn($m) => $m->date->format('Y-m-d'))
-        ->map(function ($dayEvents) {
-            return $dayEvents
-                ->map(function ($m) {
-                    $c = \App\Support\Communities::get($m->community);
-                    return ['n' => $c['label'], 'c' => $c['color'], 'cd' => $c['color_dark']];
-                })
-                ->unique('c')
-                ->take(3)
-                ->values()
-                ->all();
-        })
-        ->toArray();
-    $todayIso = now()->toDateString();
-@endphp
-
 {{-- Hero --}}
 <section class="max-w-7xl mx-auto px-5 md:px-10 pt-10 md:pt-14 pb-6 md:pb-9">
     <h1 class="text-[36px] md:text-[58px] leading-[1] tracking-[-0.045em] font-medium">
