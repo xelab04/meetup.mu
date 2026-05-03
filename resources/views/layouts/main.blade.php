@@ -37,7 +37,7 @@
     <body class="bg-island-bg text-island-fg antialiased">
 
         {{-- Top bar --}}
-        <header class="sticky top-0 z-20 border-b border-island-rule bg-island-bg/80 backdrop-blur">
+        <header class="sticky top-0 z-40 border-b border-island-rule bg-island-bg/95 backdrop-blur-md">
             <div class="max-w-7xl mx-auto px-5 md:px-10 py-3 md:py-4 flex items-center justify-between">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5">
                     <img src="{{ asset('images/favicon.svg') }}" alt="meetup.mu" class="w-8 h-8 shrink-0">
