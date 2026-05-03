@@ -1,4 +1,4 @@
-@props(['tense' => 'upcoming', 'upcomingCount' => 0, 'pastCount' => 0, 'eventDots' => [], 'todayIso' => null])
+@props(['eventDots' => [], 'todayIso' => null])
 
 @php
     $communities = \App\Support\Communities::all();
@@ -6,28 +6,6 @@
 @endphp
 
 <aside class="md:sticky md:top-24 space-y-4 self-start">
-
-    {{-- Upcoming / Past toggle --}}
-    <div class="flex bg-island-card border border-island-rule rounded-xl p-1">
-        <a href="{{ route('home') }}"
-           class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-sm font-medium transition-colors
-                  {{ $tense === 'upcoming' ? 'bg-island-fg text-island-bg' : 'text-island-fg hover:bg-island-bg' }}">
-            Upcoming
-            <span class="text-[11px] tabular-nums px-1.5 py-[1px] rounded-lg
-                         {{ $tense === 'upcoming' ? 'bg-white/15 text-current' : 'bg-black/5 dark:bg-white/10' }}">
-                {{ $upcomingCount }}
-            </span>
-        </a>
-        <a href="{{ route('past') }}"
-           class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-sm font-medium transition-colors
-                  {{ $tense === 'past' ? 'bg-island-fg text-island-bg' : 'text-island-fg hover:bg-island-bg' }}">
-            Past
-            <span class="text-[11px] tabular-nums px-1.5 py-[1px] rounded-lg
-                         {{ $tense === 'past' ? 'bg-white/15 text-current' : 'bg-black/5 dark:bg-white/10' }}">
-                {{ $pastCount }}
-            </span>
-        </a>
-    </div>
 
     {{-- Mini calendar --}}
     <div x-data="islandCalendar({ today: '{{ $todayIso }}', eventDots: {{ $eventDotsJson }} })"

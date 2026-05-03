@@ -12,31 +12,27 @@ class MeetupController extends Controller
 {
     public function home()
     {
-        $meetups = Cache::remember("meetups_home", 600, function () {
+        $upcoming = Cache::remember("meetups_upcoming", 600, function () {
             return Meetup::withCount('rsvps')
                 ->where("date", ">=", Carbon::today())
                 ->orderBy("date", "asc")
                 ->get();
         });
 
-        return $this->renderList('upcoming', $meetups);
-    }
-
-    public function past()
-    {
-        $meetups = Cache::remember("meetups_past", 600, function () {
+        $recent = Cache::remember("meetups_recent", 600, function () {
             return Meetup::withCount('rsvps')
+                ->where("date", ">=", Carbon::today()->subWeeks(2))
                 ->where("date", "<", Carbon::today())
-                ->orderBy("date", "desc")
+                ->orderBy("date", "asc")
                 ->get();
         });
 
-        return $this->renderList('past', $meetups);
+        return $this->renderList($upcoming, $recent);
     }
 
     public function community($community)
     {
-        $meetups = Cache::remember("community_{$community}", 600, function () use ($community) {
+        $upcoming = Cache::remember("community_upcoming_{$community}", 600, function () use ($community) {
             return Meetup::withCount('rsvps')
                 ->where("community", $community)
                 ->where("date", ">=", Carbon::today())
@@ -44,20 +40,16 @@ class MeetupController extends Controller
                 ->get();
         });
 
-        return $this->renderList('upcoming', $meetups, $community);
-    }
-
-    public function past_community($community)
-    {
-        $meetups = Cache::remember("meetups_past_{$community}", 600, function () use ($community) {
+        $recent = Cache::remember("community_recent_{$community}", 600, function () use ($community) {
             return Meetup::withCount('rsvps')
                 ->where("community", $community)
+                ->where("date", ">=", Carbon::today()->subWeeks(2))
                 ->where("date", "<", Carbon::today())
-                ->orderBy("date", "desc")
+                ->orderBy("date", "asc")
                 ->get();
         });
 
-        return $this->renderList('past', $meetups, $community);
+        return $this->renderList($upcoming, $recent, $community);
     }
 
     public function calendar(Request $request)
@@ -83,40 +75,15 @@ class MeetupController extends Controller
         return view("meetup", compact("meetup"));
     }
 
-    protected function renderList(string $tense, $meetups, ?string $community = null)
+    protected function renderList($upcoming, $recent, ?string $community = null)
     {
-        [$upcomingCount, $pastCount] = $this->counts($community);
-
         return view('meetup-list', [
-            'meetups' => $meetups,
-            'tense' => $tense,
-            'upcomingCount' => $upcomingCount,
-            'pastCount' => $pastCount,
+            'upcoming' => $upcoming,
+            'recent' => $recent,
             'eventDots' => $this->eventDots(),
             'todayIso' => Carbon::today()->toDateString(),
             'community' => $community,
         ]);
-    }
-
-    /**
-     * Per-community (or global) upcoming/past counts for the sidebar toggle.
-     */
-    protected function counts(?string $community = null): array
-    {
-        $key = $community ? "counts_community_{$community}" : 'counts';
-
-        return Cache::remember($key, 600, function () use ($community) {
-            $base = Meetup::query();
-            if ($community) {
-                $base->where('community', $community);
-            }
-            $today = Carbon::today();
-
-            return [
-                (clone $base)->where('date', '>=', $today)->count(),
-                (clone $base)->where('date', '<', $today)->count(),
-            ];
-        });
     }
 
     /**

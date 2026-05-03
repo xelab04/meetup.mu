@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/", [MeetupController::class, "home"])->name("home");
 
-Route::get("/past", [MeetupController::class, "past"])->name("past");
-
 Route::get("/calendar", [MeetupController::class, "calendar"])->name("calendar");
 
 Route::get('/privacypolicy', function () {
@@ -25,11 +23,6 @@ Route::get("/meetup/{meetup}", [MeetupController::class, "meetup"])->name(
 Route::post("/rsvp/{meetup}", [RSVPController::class, "rsvp"])->name(
     "rsvp"
 );
-
-Route::get("/past/{community}", [
-    MeetupController::class,
-    "past_community",
-])->name("past-community");
 
 Route::get("/c/{community}", [MeetupController::class, "community"])->name(
     "community"

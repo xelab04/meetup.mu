@@ -85,17 +85,24 @@
                 }
             },
             apply() {
-                let visible = 0;
                 document.querySelectorAll('[data-event-card]').forEach(card => {
                     const match = this.active.has(card.dataset.group);
                     card.style.display = match ? '' : 'none';
-                    if (match) visible++;
                 });
+                // Hide month headings whose events are all filtered out
+                document.querySelectorAll('[data-month-group]').forEach(group => {
+                    const cards = group.querySelectorAll('[data-event-card]');
+                    const anyVisible = Array.from(cards).some(c => c.style.display !== 'none');
+                    group.style.display = anyVisible ? '' : 'none';
+                });
+                // Empty state — scoped to the upcoming grid
                 const empty = document.getElementById('event-grid-empty');
                 const grid = document.getElementById('event-grid');
                 if (empty && grid) {
-                    const hasCards = grid.children.length > 0;
-                    if (hasCards && visible === 0) {
+                    const upcomingCards = grid.querySelectorAll('[data-event-card]');
+                    const visibleUpcoming = Array.from(upcomingCards).filter(c => c.style.display !== 'none').length;
+                    const hasCards = upcomingCards.length > 0;
+                    if (hasCards && visibleUpcoming === 0) {
                         empty.classList.remove('hidden');
                         grid.classList.add('hidden');
                     } else {
