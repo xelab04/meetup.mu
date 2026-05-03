@@ -25,6 +25,7 @@
     }
 
     $byMonth = $meetups->groupBy(fn ($m) => (int) $m->date->format('n'));
+    $currentMonthIdx = ($today->year === $year) ? $today->month - 1 : -1;
 @endphp
 
 @section('content')
@@ -34,7 +35,8 @@
         <h1 class="text-[36px] md:text-[58px] leading-[1] tracking-[-0.045em] font-medium">
             <span class="font-mono font-normal tracking-[-0.02em] text-island-primary">Calendar</span> {{ $year }}
         </h1>
-        <div class="ml-auto flex items-center gap-1 text-[13px]">
+        {{-- Year nav (desktop) --}}
+        <div class="hidden md:flex ml-auto items-center gap-1 text-[13px]">
             <a href="{{ route('calendar', ['y' => $prevYear]) }}"
                class="px-3 py-1.5 rounded-lg border border-island-rule hover:bg-island-card transition-colors tabular-nums">
                 ‹ {{ $prevYear }}
@@ -56,9 +58,11 @@
     </p>
 </section>
 
-{{-- Year grid --}}
-<section class="max-w-7xl mx-auto px-5 md:px-10 pb-10">
-    <div class="grid gap-4 md:gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+{{-- Year grid: horizontal snap scroller on mobile, grid on md+ --}}
+<section class="pb-10">
+    <div id="calendar-strip"
+         data-current-month-idx="{{ $currentMonthIdx }}"
+         class="flex md:grid md:max-w-7xl md:mx-auto gap-4 md:gap-5 px-5 md:px-10 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         @foreach (range(1, 12) as $m)
             @php
                 $monthDate = Carbon::create($year, $m, 1);
@@ -69,7 +73,7 @@
                 $isCurrentMonth = $today->year === $year && $today->month === $m;
                 $anchor = 'month-' . $m;
             @endphp
-            <div class="bg-island-card border border-island-rule rounded-xl p-4 {{ $isCurrentMonth ? 'ring-1 ring-island-primary/40' : '' }}">
+            <div class="shrink-0 w-[85vw] md:w-auto snap-center bg-island-card border border-island-rule rounded-xl p-4 {{ $isCurrentMonth ? 'ring-1 ring-island-primary/40' : '' }}">
                 <div class="flex items-baseline justify-between mb-3">
                     @if ($monthCount > 0)
                         <a href="#{{ $anchor }}" class="font-semibold text-[15px] hover:text-island-primary transition-colors">
@@ -139,7 +143,7 @@
 </section>
 
 {{-- Event list, grouped by month --}}
-<section class="max-w-7xl mx-auto px-5 md:px-10 pb-16 space-y-12">
+<section class="max-w-7xl mx-auto px-5 md:px-10 pb-24 md:pb-16 space-y-12">
     @forelse ($byMonth as $monthNum => $monthMeetups)
         @php
             $monthName = Carbon::create($year, $monthNum, 1)->format('F');
@@ -164,4 +168,43 @@
         </div>
     @endforelse
 </section>
+
+{{-- Year nav (mobile, sticky bottom) --}}
+<nav class="md:hidden sticky bottom-0 z-30 border-t border-island-rule bg-island-bg/95 backdrop-blur-md">
+    <div class="flex items-center gap-2 px-5 py-3">
+        <a href="{{ route('calendar', ['y' => $prevYear]) }}"
+           class="flex-1 px-3 py-2.5 rounded-lg border border-island-rule text-center text-[13px] tabular-nums hover:bg-island-card transition-colors">
+            ‹ {{ $prevYear }}
+        </a>
+        @if ($year !== $today->year)
+            <a href="{{ route('calendar') }}"
+               class="px-4 py-2.5 rounded-lg border border-island-rule text-[13px] hover:bg-island-card transition-colors">
+                Today
+            </a>
+        @endif
+        <a href="{{ route('calendar', ['y' => $nextYear]) }}"
+           class="flex-1 px-3 py-2.5 rounded-lg border border-island-rule text-center text-[13px] tabular-nums hover:bg-island-card transition-colors">
+            {{ $nextYear }} ›
+        </a>
+    </div>
+</nav>
 @endsection
+
+@push('scripts')
+<script>
+    (function () {
+        const strip = document.getElementById('calendar-strip');
+        if (!strip) return;
+        const idx = parseInt(strip.dataset.currentMonthIdx || '-1', 10);
+        if (idx < 0) return;
+        // Only auto-scroll while the strip is in horizontal mode (mobile).
+        if (!window.matchMedia('(max-width: 767px)').matches) return;
+        const target = strip.children[idx];
+        if (!target) return;
+        const stripRect = strip.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const targetOffset = targetRect.left - stripRect.left + strip.scrollLeft;
+        strip.scrollLeft = targetOffset - (strip.clientWidth - target.offsetWidth) / 2;
+    })();
+</script>
+@endpush
