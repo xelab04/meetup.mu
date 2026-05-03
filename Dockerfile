@@ -43,13 +43,13 @@ COPY --from=php-deps /app/vendor/ /app/vendor/
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 # force http in the container
-ENV SERVER_NAME=:80
+ENV SERVER_NAME=:8080
 
-EXPOSE 80
+EXPOSE 8080
 
 ADD --chmod=0755 docker-entrypoint.sh /usr/local/bin
 
 RUN php artisan octane:install --server=frankenphp
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
-CMD ["php", "artisan", "octane:frankenphp", "--port=80", "--host=0.0.0.0", "--caddyfile=/app/Caddyfile"]
+CMD ["php", "artisan", "octane:frankenphp", "--port=8080", "--host=0.0.0.0", "--caddyfile=/app/Caddyfile"]
