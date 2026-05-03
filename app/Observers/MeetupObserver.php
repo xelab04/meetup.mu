@@ -25,10 +25,9 @@ class MeetupObserver
 
     protected function forget(Meetup $meetup): void
     {
-        Cache::forget('meetups_home');
-        Cache::forget('meetups_past');
+        Cache::forget('meetups_upcoming');
+        Cache::forget('meetups_recent');
         Cache::forget('event_dots');
-        Cache::forget('counts');
 
         // Year-scoped calendar cache — invalidate both the previous date's
         // year (if the date was changed) and the current one.
@@ -39,9 +38,8 @@ class MeetupObserver
         // Community-scoped caches, including the old slug if the meetup
         // was moved between groups.
         foreach ($this->affectedCommunities($meetup) as $slug) {
-            Cache::forget("community_{$slug}");
-            Cache::forget("meetups_past_{$slug}");
-            Cache::forget("counts_community_{$slug}");
+            Cache::forget("community_upcoming_{$slug}");
+            Cache::forget("community_recent_{$slug}");
         }
     }
 

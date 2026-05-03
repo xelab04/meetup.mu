@@ -20,36 +20,15 @@ class MeetupResource extends Resource
 
     protected static ?string $navigationIcon = "heroicon-o-rectangle-stack";
 
-    protected static ?array $communityOptions = [
-        "mscc" => "MSCC",
-        "cloudnativemu" => "Cloud Native MU",
-        "frontendmu" => "Frontend MU",
-        "dodocore" => "DodoCore",
-        "pymug" => "PYMUG",
-        "laravelmoris" => "LaravelMoris",
-        "nugm" => "NUGM",
-        "gophersmu" => "Gophers MU",
-        "mobilehorizon" => "Mobile Horizon",
-        "pydata" => "PyData MU",
-        "standalone" => "Standalone"
-    ];
-
     public static function form(Form $form): Form
     {
         $user = auth()->user();
         $isSuperAdmin = $user->admin === '*';
 
-        // For superadmins, show all communities; otherwise, only show their assigned community
-        $allCommunities = static::$communityOptions;
-
-        // If user is not a superadmin and has a specific community assigned
-        if (!$isSuperAdmin && $user->admin) {
-            // Filter to only show the user's assigned community
-            if (isset($communityOptions[$user->admin])) {
-                $communityOptions = [
-                    $user->admin => $allCommunities[$user->admin]
-                ];
-            }
+        // For superadmins, show all communities; otherwise, scope to their assigned community.
+        $allCommunities = \App\Support\Communities::labels();
+        if (!$isSuperAdmin && $user->admin && isset($allCommunities[$user->admin])) {
+            $allCommunities = [$user->admin => $allCommunities[$user->admin]];
         }
 
         return $form->schema([
@@ -118,7 +97,7 @@ class MeetupResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('community')
-                    ->options(static::$communityOptions),
+                    ->options(\App\Support\Communities::labels()),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
