@@ -11,8 +11,6 @@
 {{-- Main layout --}}
 <section class="max-w-7xl mx-auto px-5 md:px-10 pb-10 grid gap-6 md:gap-10 md:grid-cols-[280px_minmax(0,1fr)] items-start">
 
-    <x-sidebar :event-dots="$eventDots" :today-iso="$todayIso" />
-
     <div x-data="{ showRecent: false }">
         @if ($upcoming->isEmpty() && $recent->isEmpty())
             <div class="text-center py-16 px-5 bg-island-card border border-dashed border-island-rule rounded-xl">
@@ -88,4 +86,6 @@
             </div>
         @endif
     </div>
+
+    <x-sidebar :event-dots="$eventDots" :today-iso="$todayIso" class="md:order-first" />
 </section>

@@ -5,7 +5,7 @@
     $eventDotsJson = json_encode((object) $eventDots);
 @endphp
 
-<aside class="md:sticky md:top-24 space-y-4 self-start">
+<aside {{ $attributes->merge(['class' => 'md:sticky md:top-24 space-y-4 self-start']) }}>
 
     {{-- Mini calendar --}}
     <div x-data="islandCalendar({ today: '{{ $todayIso }}', eventDots: {{ $eventDotsJson }} })"
