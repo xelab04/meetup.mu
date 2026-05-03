@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM dunglas/frankenphp:1.5.0-php8.3-alpine AS php-base
+FROM dunglas/frankenphp:1.5.0-php8.4-alpine AS php-base
 
 WORKDIR /app
 
