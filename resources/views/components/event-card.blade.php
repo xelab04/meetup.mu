@@ -40,7 +40,11 @@
 @endphp
 
 <article data-event-card data-group="{{ $meetup->community }}"
-         class="group/card relative flex flex-col rounded-2xl p-5 md:p-[22px] overflow-hidden bg-island-card border border-island-rule shadow-sm shadow-black/[0.04] dark:shadow-black/[0.25] hover:shadow-xl hover:shadow-black/[0.1] dark:hover:shadow-black/[0.55] hover:-translate-y-[2px] transition-[transform,box-shadow] duration-200 ease-out">
+         @class([
+             'group/card relative flex flex-col rounded-2xl p-5 md:p-[22px] overflow-hidden bg-island-card border shadow-sm shadow-black/[0.04] dark:shadow-black/[0.25] hover:shadow-xl hover:shadow-black/[0.1] dark:hover:shadow-black/[0.55] hover:-translate-y-[2px] transition-[transform,box-shadow] duration-200 ease-out',
+             'border-island-rule' => !$isToday,
+             'md:col-span-2 md:p-7 border-island-today/60' => $isToday,
+         ])>
 
     {{-- Full-card click target (sits below other interactive elements) --}}
     <a href="{{ $titleHref }}" target="{{ $titleTarget }}" @if($titleRel) rel="{{ $titleRel }}" @endif
@@ -115,7 +119,11 @@
     </div>
 
     {{-- Title --}}
-    <h3 class="text-[18px] font-semibold tracking-tight leading-tight mb-2 text-island-fg">
+    <h3 @class([
+        'font-semibold tracking-tight leading-tight mb-2 text-island-fg',
+        'text-[18px]' => !$isToday,
+        'text-[18px] md:text-[22px]' => $isToday,
+    ])>
         {{ $meetup->title }}
     </h3>
 
