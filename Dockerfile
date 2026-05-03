@@ -19,8 +19,6 @@ ARG MYUID=1042
 
 WORKDIR /app
 
-COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
-
 RUN install-php-extensions \
     pcntl \
     pdo_mysql \
@@ -41,6 +39,8 @@ RUN install-php-extensions \
     bz2 \
     calendar \
     tokenizer
+
+COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
 
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
