@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Concerns\ClearsResponseCache;
+use App\Observers\MeetupObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ObservedBy(MeetupObserver::class)]
 class Meetup extends Model
 {
     // use ClearsResponseCache;

@@ -16,8 +16,11 @@ Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
+/.claude
 /.fleet
 /.idea
 /.nova
 /.vscode
 /.zed
+/Dockerfile.dev
+/compose.dev.yaml
