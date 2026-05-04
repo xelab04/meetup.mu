@@ -22,13 +22,6 @@ return [
             'color_dark' => '#7BA8F5',
             'topic' => 'Development · Software',
         ],
-        'gdg' => [
-            'label' => 'GDG',
-            'mono' => 'GDG',
-            'color' => '#5B8DEF',
-            'color_dark' => '#7BA8F5',
-            'topic' => 'Google · Development',
-        ],
         'cloudnativemu' => [
             'label' => 'Cloud Native MU',
             'mono' => 'CN',
@@ -43,12 +36,12 @@ return [
             'color_dark' => '#EEC25C',
             'topic' => 'Web · UI',
         ],
-        'dodocore' => [
-            'label' => 'DodoCore',
-            'mono' => 'DD',
-            'color' => '#E07856',
-            'color_dark' => '#F49374',
-            'topic' => 'Systems · Low-level',
+        'laravelmoris' => [
+            'label' => 'LaravelMoris',
+            'mono' => 'LM',
+            'color' => '#C64545',
+            'color_dark' => '#E06868',
+            'topic' => 'PHP · Laravel',
         ],
         'pymug' => [
             'label' => 'PYMUG',
@@ -56,13 +49,6 @@ return [
             'color' => '#3E8F6B',
             'color_dark' => '#5EB088',
             'topic' => 'Python · Data',
-        ],
-        'laravelmoris' => [
-            'label' => 'LaravelMoris',
-            'mono' => 'LM',
-            'color' => '#C64545',
-            'color_dark' => '#E06868',
-            'topic' => 'PHP · Laravel',
         ],
         'nugm' => [
             'label' => 'NUGM',
@@ -78,6 +64,13 @@ return [
             'color_dark' => '#4BCBEF',
             'topic' => 'Go · Backend',
         ],
+        'gdg' => [
+            'label' => 'GDG',
+            'mono' => 'GDG',
+            'color' => '#F57F34',
+            'color_dark' => '#F58945',
+            'topic' => 'Google · Development',
+        ],
         'mobilehorizon' => [
             'label' => 'Mobile Horizon',
             'mono' => 'MH',
@@ -91,6 +84,13 @@ return [
             'color' => '#4E9A4E',
             'color_dark' => '#7AC07A',
             'topic' => 'Data · ML',
+        ],
+        'dodocore' => [
+            'label' => 'DodoCore',
+            'mono' => 'DD',
+            'color' => '#E07856',
+            'color_dark' => '#F49374',
+            'topic' => 'Systems · Low-level',
         ],
         'standalone' => [
             'label' => 'Standalone',
