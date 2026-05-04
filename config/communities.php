@@ -20,7 +20,14 @@ return [
             'mono' => 'MS',
             'color' => '#5B8DEF',
             'color_dark' => '#7BA8F5',
-            'topic' => 'Craft · Architecture',
+            'topic' => 'Development · Software',
+        ],
+        'gdg' => [
+            'label' => 'GDG',
+            'mono' => 'GDG',
+            'color' => '#5B8DEF',
+            'color_dark' => '#7BA8F5',
+            'topic' => 'Google · Development',
         ],
         'cloudnativemu' => [
             'label' => 'Cloud Native MU',
