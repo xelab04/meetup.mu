@@ -1,5 +1,77 @@
 import sys
-import yaml
+import yaml as yaml_lib
+
+
+class IMAGE:
+    def __init__(self, image_string, txt_path):
+        self.image = image_string.split(":")[0]
+        self.major = int(image_string.split(":")[1].split(".")[0])
+        self.minor = int(image_string.split(":")[1].split(".")[1])
+
+        self.path = txt_path
+
+        self.get_version_from_txt()
+        self.get_higher_of_yaml_or_txt()
+
+        print(self.create_image_string())
+
+    def create_image_string(self):
+        return f"{self.image}:{self.major}.{self.minor}"
+
+    def bump(self, ver):
+        if ver == "major":
+            self.major += 1
+        elif ver == "minor":
+            self.minor += 1
+        else:
+            print("version to bump not specified, defaulting to minor")
+            self.minor += 1
+
+    def get_version_from_txt(self, path=None):
+        if not path:
+            path = self.path
+        with open(path,"r") as filehandle:
+            version_txt = filehandle.readlines()[0].strip("\n")
+            self.txt_major = int(version_txt.split(".")[0])
+            self.txt_minor = int(version_txt.split(".")[1])
+
+    def get_higher_of_yaml_or_txt(self):
+        # this should not be necessary, but catering for
+        # if there's manual intervention
+        self.major = max(self.major, self.txt_major)
+        self.minor = max(self.minor, self.txt_minor)
+
+    def write_txt(self, path=None):
+        if not path:
+            path = self.path
+        with open(path, "w") as filehandle:
+            filehandle.writelines(f"{self.major}.{self.minor}")
+
+
+class YAML:
+    def __init__(self, path):
+        self.path = path
+        self.read_yaml(self.path)
+
+
+    def read_yaml(self, path=None):
+        if not path:
+            path = self.path
+        with open(path, "r") as filehandle:
+            loaded_yaml = yaml_lib.safe_load(filehandle)
+            self.yaml = loaded_yaml
+            self.image = self.yaml["spec"]["template"]["spec"]["containers"][0]["image"]
+
+    def update_yaml(self, old_image, new_image):
+        self.yaml = update_yaml(self.yaml, old_image, new_image)
+        print(self.yaml)
+
+    def write_yaml(self, path=None):
+        if not path:
+            path = self.path
+        with open(path, "w") as filehandle:
+            yaml_lib.dump(self.yaml, filehandle)
+
 
 def check_args():
     if len(sys.argv) != 2:
@@ -7,57 +79,6 @@ def check_args():
         print("Defaulting to minor version change")
         return "minor"
     return sys.argv[1]
-
-
-def get_yaml_file():
-    with open("kubernetes/app_deploy.yaml", "r") as filehandle:
-        loaded_yaml = yaml.safe_load(filehandle)
-    return loaded_yaml
-
-def get_image_ver_from_yaml(yaml_file):
-    image_and_ver = yaml_file["spec"]["template"]["spec"]["containers"][0]["image"]
-    image,ver = image_and_ver.split(":")
-
-    return (image,ver)
-
-def get_major_minor(text):
-    major,minor = [int(n) for n in text.split(".")[:2]]
-    return major,minor
-
-def write_yaml_to_file(yaml_dict: dict):
-    with open("kubernetes/app_deploy_test.yaml", "w+") as filehandle:
-        yaml.dump(yaml_dict, filehandle)
-
-def get_version():
-    with open("version.txt","r") as filehandle:
-        version_txt = filehandle.readlines()[0].strip("\n")
-        major,minor = [int(n) for n in version_txt.split(".")]
-        return major,minor
-
-def update_version(major, minor, ver):
-    if ver == "major":
-        major += 1
-    if ver == "minor":
-        minor += 1
-
-    return f"{major}.{minor}"
-
-def write_version(ver):
-    with open("version.txt", "w") as filehandle:
-        filehandle.writelines(ver)
-
-def render_template(version):
-    with open("kubernetes/app_deploy_template", "r") as filehandle:
-        lines = filehandle.readlines()
-        new_lines = []
-        for line in lines:
-            if "{{ version }}" in line:
-                line = line.replace("{{ version }}", version)
-            new_lines.append(line)
-
-        with open("kubernetes/app_deploy.yaml","w") as filehandle:
-            filehandle.writelines(new_lines)
-
 
 def update_yaml(yaml_dict, old_image, new_image):
 
@@ -86,41 +107,23 @@ def main():
 
     ver = check_args()
 
-    yaml_file = get_yaml_file()
+    # load yaml and image version.txt
+    yaml = YAML(path="kubernetes/app_deploy.yaml")
+    image = IMAGE(image_string=yaml.image, txt_path="version.txt")
+    old_image = image.create_image_string()
 
-    image, version = get_image_ver_from_yaml(yaml_file)
-    old_image = f"{image}:{version}"
+    # increase version of image
+    image.bump(ver)
+    new_image = image.create_image_string()
 
-    major, minor = get_major_minor(version)
+    print(f"Updated {old_image} to {new_image}")
 
-    new_ver = update_version(major, minor, ver)
+    # save new version to text file
+    image.write_txt("version_test.txt")
 
-    new_image = f"{image}:{new_ver}"
-
-    print(f"Updating to: {new_image}")
-
-    new_yaml_dict = update_yaml(yaml_file, old_image, new_image)
-    print(new_yaml_dict)
-
-    write_yaml_to_file(new_yaml_dict)
-
-    # ver = check_args()
-    #
-    # if ver == "render":
-    #     major, minor = get_version()
-    #     ver = f"{major}.{minor}"
-    #     print(ver)
-    #     render_template(ver)
-    #     return 0
-    #
-    # major, minor = get_version()
-    # new_ver = update_version(major, minor, ver)
-    #
-    # print(f"{major}.{minor} increased to {new_ver}")
-    #
-    # write_version(new_ver)
-    #
-    # render_template(new_ver)
+    # update the yaml file, and save new yaml
+    yaml.update_yaml(yaml.image, new_image)
+    yaml.write_yaml(path="kubernetes/app_deploy.yaml")
 
 if __name__ == "__main__":
     main()
