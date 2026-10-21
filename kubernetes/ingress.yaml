@@ -32,6 +32,13 @@ spec:
   - host: meetup.mu
     http:
       paths:
+      - path: /.well-known/matrix
+        pathType: Prefix
+        backend:
+          service:
+            name: matrix-continuwuity
+            port:
+              number: 6167
       - path: /
         pathType: Prefix
         backend:
