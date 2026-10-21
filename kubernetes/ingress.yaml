@@ -1,20 +1,3 @@
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: meetups
-# spec:
-#   rules:
-#   - host: meetup.mu
-#     http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: meetups-svc
-#             port:
-#               number: 8000
-
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -43,7 +26,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: meetups-svc
+            name: php-errorpage
             port:
               number: 8000
 

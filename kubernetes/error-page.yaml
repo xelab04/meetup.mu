@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: php-errorpage
+  name: php-errorpage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-errorpage
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: php-errorpage
+    spec:
+      containers:
+      - image: ghcr.io/xelab04/php-errorpage:latest
+        name: php-errorpage
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: php-errorpage
+  name: php-errorpage
+spec:
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: php-errorpage
+status:
+  loadBalancer: {}
