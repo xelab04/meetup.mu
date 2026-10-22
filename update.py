@@ -119,7 +119,7 @@ def main():
     print(f"Updated {old_image} to {new_image}")
 
     # save new version to text file
-    image.write_txt("version_test.txt")
+    image.write_txt("version.txt")
 
     # update the yaml file, and save new yaml
     yaml.update_yaml(yaml.image, new_image)

@@ -17,64 +17,64 @@ spec:
       labels:
         app: meetups
     spec:
-      initContainers:
-        - name: migrate
-          image: registry.alexbissessur.dev/meetups:6.55
-          imagePullPolicy: IfNotPresent
-          command: ["php", "artisan", "migrate", "--force"]
-          envFrom:
-            - configMapRef:
-                name: env-cfm
-            - secretRef:
-                name: app-key
-          env:
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: env-secret
-                  key: MYSQL_USER
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: env-secret
-                  key: MYSQL_PASSWORD
-            - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: env-secret
-                  key: MYSQL_DATABASE
       containers:
-        - image: registry.alexbissessur.dev/meetups:6.55
-          name: meetups
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: env-cfm
-            - secretRef:
-                name: mail-secret
-            - secretRef:
-                name: app-key
-
-          env:
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: env-secret
-                  key: MYSQL_USER
-
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: env-secret
-                  key: MYSQL_PASSWORD
-
-            - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: env-secret
-                  key: MYSQL_DATABASE
-
+      - env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_USER
+              name: env-secret
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_PASSWORD
+              name: env-secret
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_DATABASE
+              name: env-secret
+        envFrom:
+        - configMapRef:
+            name: env-cfm
+        - secretRef:
+            name: mail-secret
+        - secretRef:
+            name: app-key
+        image: registry.alexbissessur.dev/meetups:6.56
+        imagePullPolicy: IfNotPresent
+        name: meetups
+        ports:
+        - containerPort: 8080
       imagePullSecrets:
-        - name: regcred
+      - name: regcred
+      initContainers:
+      - command:
+        - php
+        - artisan
+        - migrate
+        - --force
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_USER
+              name: env-secret
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_PASSWORD
+              name: env-secret
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_DATABASE
+              name: env-secret
+        envFrom:
+        - configMapRef:
+            name: env-cfm
+        - secretRef:
+            name: app-key
+        image: registry.alexbissessur.dev/meetups:6.56
+        imagePullPolicy: IfNotPresent
+        name: migrate

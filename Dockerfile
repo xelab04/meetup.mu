@@ -1,4 +1,4 @@
-FROM docker.io/library/node:22.14.0-alpine3.21 AS node
+FROM docker.io/library/node:26.12.1-alpine3.24 AS node
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN npm ci
 
 RUN npm run build
 
-FROM dunglas/frankenphp:1.12.2-php8.4-alpine AS frankenphp
+FROM docker.io/dunglas/frankenphp:1.13.2-php8.5-alpine AS frankenphp
 
 ARG MYUSER=appuser
 ARG MYUID=1042
