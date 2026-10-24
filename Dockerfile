@@ -14,10 +14,12 @@ RUN npm run build
 
 FROM docker.io/dunglas/frankenphp:1.13.2-php8.5-alpine AS frankenphp
 
-ARG MYUSER=appuser
-ARG MYUID=1042
+# ARG MYUSER=appuser
+# ARG MYUID=1042
 
 WORKDIR /app
+
+USER 0
 
 RUN install-php-extensions \
     pcntl \
@@ -40,13 +42,10 @@ RUN install-php-extensions \
     calendar \
     tokenizer
 
-COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
-
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-USER 0
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Create a non-root user
@@ -63,9 +62,11 @@ RUN wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/downl
 
 # USER ${MYUID}
 
+COPY --from=node --chown=${MYUSER}:${MYUSER} /app /app
+
 COPY . .
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=docker.io/composer/composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install --no-dev --optimize-autoloader
 
